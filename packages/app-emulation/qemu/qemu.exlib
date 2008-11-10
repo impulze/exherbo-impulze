@@ -1,0 +1,113 @@
+# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require toolchain-funcs
+
+SUMMARY="A generic and open source machine emulator and virtualizer."
+DESCRIPTION="
+    When used as a machine emulator, it can run OS and programs made for one
+    machine on a different machine. It claims to achieve good performances
+    because of dynamic translation.'
+"
+HOMEPAGE="http://bellard.org/${PN}"
+
+LICENCES="GPL-2"
+MYOPTIONS="alsa doc gnutls sdl static"
+
+DEPENDENCIES="
+    build+run:
+        gnutls? ( dev-libs/gnutls )
+        sdl? ( media-libs/libSDL )
+"
+
+REMOTE_IDS="freshmeat:qemu"
+
+UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/user-doc.html"
+UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/index.html"
+
+find_unsupported_arches () 
+{ 
+    local can_parse=false;
+    local inside_block=;
+    while read line; do
+        if [[ "${line}" = "case \"\$target_cpu\" in" ]] ; then
+            can_parse=true && continue;
+        fi
+        if ${can_parse}; then
+            [[ "${line:0:4}" = esac ]] && break;
+            if [[ "${line:${#line} - 1}" = ")" ]]; then
+                inside_block="${line:0:${#line} - 1}";
+                if [[ "${inside_block}" == "*" ]]; then
+                    inside_block="";
+                fi;
+                continue;
+            fi;
+            if [[ "${line:${#line} - 2}" = ";;" ]]; then
+                inside_block="" && continue;
+            fi;
+            if [[ -n "${inside_block}" ]]; then
+                case "${line}" in 
+                    *CONFIG_DYNGEN_OP*)
+                        UNSUPPORTED_ARCHES+=( $(echo "${inside_block}" | tr '|' ' ') );
+                        inside_block="";
+                        continue
+                    ;;
+                esac;
+            fi;
+        fi;
+    done < "${WORK}/configure" || die "find_unsupported_arches failed"
+}
+
+qemu_configure () 
+{ 
+    find_unsupported_arches;
+    if [[ -n "${UNSUPPORTED_ARCHES[@]}" ]]; then
+        ewarn "The qemu cpu targets:";
+        for arch in ${UNSUPPORTED_ARCHES[@]};
+        do
+            ewarn "  * ${arch}";
+        done;
+        ewarn "won't build with gcc-4, disabling them";
+    fi;
+    local target_list=;
+    local cur_target=;
+    for target in target-*;
+    do
+        cur_target=${target#target-};
+        if ! has "${cur_target}" ${UNSUPPORTED_ARCHES[@]}; then
+            target_list+=("${cur_target}-softmmu" "${cur_target}-linux-user");
+        fi;
+    done;
+    local audio_drv=
+    optionq alsa && audio_drv+=( alsa );
+    optionq sdl && audio_drv+=( sdl );
+
+    ./configure \
+        --prefix=/usr \
+        --host-cc="$(tc-getBUILD_CC)" \
+        --cc="$(tc-getCC)" \
+        $(optionq static && echo --static) \
+        $(optionq sdl || echo --disable-sdl) \
+        $(optionq sdl || echo --disable-gfx-check) \
+        $(optionq gnutls || echo --disable-vnc-tls) \
+        --extra-cflags="${CFLAGS}" \
+        --extra-ldflags="${LDFLAGS}" \
+        --disable-kqemu \
+        --disable-gcc-check \
+        --target-list="$(echo ${target_list[@]} | tr ' ' ',')" \
+        --audio-drv-list="$(echo ${audio_drv[@]} | tr ' ' ',')" \
+        $([[ -n "${audio_drv[@]}" ]] && echo --enable-mixemu) \
+        ${@} \
+        || die "configure failed"
+}
+
+qemu_src_prepare () 
+{
+    sed \
+        -e "s:build_docs=\"yes\":build_docs=\"$(optionq doc && echo yes || echo no)\":g" \
+        -e '/^CFLAGS=/s:-O2 -g::' \
+        -e '/^LDFLAGS=/s:-g::' \
+        -i configure \
+        || die "sed configure failed";
+}
