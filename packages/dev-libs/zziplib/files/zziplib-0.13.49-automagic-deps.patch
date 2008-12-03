@@ -1,0 +1,22 @@
+Reason: Lots of automagic!
+Upstream: Unknown
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./configure.ac.orig	2008-12-03 17:51:41.945131986 +0100
++++ ./configure.ac	2008-12-03 17:54:49.667132519 +0100
+@@ -85,9 +85,12 @@
+ # -----------------------------------------------------------------------
+ 
+ AC_PATH_PROGS(PERL, perl5 perl, echo no perl found for)
+-AC_PATH_PROGS(PYTHON, python2.2 python2.3 python, echo no python found for)
+-AC_PATH_PROGS(MKZIP, zip pkzip, :)
+-AC_PATH_PROGS(XMLTO, xmlto, :)
++AC_ARG_WITH([python], [AS_HELP_STRING([--with-python], [use python (default yes)])])
++test "$with_python" != no && AC_PATH_PROGS(PYTHON, python2.2 python2.3 python, echo no python found for)
++AC_ARG_WITH([zip], [AS_HELP_STRING([--with-zip], [use zip (default yes)])])
++test "$with_zip" != no && AC_PATH_PROGS(MKZIP, zip pkzip, :)
++AC_ARG_WITH([xmlto], [AS_HELP_STRING([--with-xmlto], [use xmlto (default yes)])])
++test "$with_xmlto" != no && AC_PATH_PROGS(XMLTO, xmlto, :)
+ 
+ AC_C_INLINE
+ AC_C_CONST
