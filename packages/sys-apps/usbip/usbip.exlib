@@ -1,0 +1,48 @@
+# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+SUPPORTED_AUTOCONF=( 2.5 )
+SUPPORTED_AUTOMAKE=( 1.10 )
+require autotools
+
+SUMMARY="Share USB devices over IP"
+DESCRIPTION="Userspace tools for the new USB over IP kernel feature"
+HOMEPAGE="http://${PN}.sourceforge.net/"
+DOWNLOADS="mirror://sourceforge/${PN}/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+MYOPTIONS="tcpd"
+
+DEPENDENCIES="
+    build+run:
+        dev-libs/glib
+        tcpd? ( sys-apps/tcp_wrappers )
+        sys-fs/sysfsutils
+    run:
+        sys-apps/usbutils-data
+"
+
+REMOTE_IDS="freshmeat:usbip"
+
+UPSTREAM_CHANGELOG="http://sourceforge.net/project/shownotes.php?group_id=122798&release_id=595689"
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}#documentation"
+UPSTREAM_RELEASE_NOTES="${UPSTREAM_CHANGELOG}"
+
+DEFAULT_SRC_CONFIGURE_PARAMS+=( '--with-usbids-dir=/usr/share/misc' '--disable-usbids-install' )
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS+=( 'tcpd tcp-wrappers' )
+
+WORK="${WORK}/src"
+
+src_prepare() {
+    sed \
+        -e "/^AM_CFLAGS = /s:= := -DUSBIDS_FILE='\"@USBIDS_DIR@/usb.ids\"' :" \
+        -i cmd/Makefile.am \
+        || die "sed cmd/Makefile.am failed"
+    autotools_src_prepare
+}
+
+src_install() {
+    default
+
+    rmdir "${IMAGE}/usr/share/usbip"
+}

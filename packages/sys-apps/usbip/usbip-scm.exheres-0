@@ -1,0 +1,10 @@
+# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+SCM_REPOSITORY="https://${PN}.svn.sourceforge.net/svnroot/${PN}/linux"
+
+require "${PN}" scm-svn
+
+DOWNLOADS=""
+SLOT="0"
+PLATFORMS="~amd64"
