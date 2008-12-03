@@ -28,6 +28,8 @@ DEPENDENCIES="
         openexr? ( media-libs/openexr )
 "
 
+WORK="${WORKBASE}/${PN}"
+
 src_configure() {
     local guitype
     option gtk && guitype=gtk || guitype=Xt
