@@ -1,0 +1,33 @@
+# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require toolchain-funcs
+
+SUMMARY="A C library for developing embedded Linux systems."
+DESCRIPTION="A small C library that runs on standard Linux and MMU-less (also
+    known as µClinux) systems with support for alpha, amd64, ARM, Blackfin,
+    cris, h8300, hppa, i386, i960, ia64, m68k, mips/mipsel, PowerPC, SH, SPARC,
+    and v850 processors."
+HOMEPAGE="http://www.${PN}.org"
+DOWNLOADS="${HOMEPAGE}/downloads/${PNV/_/-}.tar.bz2"
+
+LICENCES=""
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES=""
+
+WORK="${WORKBASE}/${PNV/_/-}"
+
+DEFAULT_SRC_INSTALL_PARAMS=( PREFIX="${IMAGE}/usr" )
+
+src_compile() {
+    make defconfig
+
+    make \
+        CC=$(tc-getCC) \
+        AR=$(tc-getAR) \
+        LD=$(tc-getLD) \
+        NM=$(tc-getNM) \
+        HOSTCC=$(tc-getBUILD_CC)
+}
