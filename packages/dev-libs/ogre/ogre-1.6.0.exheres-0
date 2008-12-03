@@ -1,0 +1,54 @@
+# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="A graphics rendering engine."
+DESCRIPTION="OGRE (Object-Oriented Graphics Rendering Engine) is a
+scene-oriented, flexible 3D engine written in C++ designed to make it easier
+and more intuitive for developers to produce applications utilising
+hardware-accelerated 3D graphics"
+HOMEPAGE="http://ogre3d.org/"
+DOWNLOADS="mirror://sourceforge/${PN}/${PN}-v${PV//./-}.tar.bz2"
+
+LICENCES="LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    boost freeimage gtk il openexr
+    ( freeimage il ) [[ number-selected = at-most-one ]]
+"
+
+DEPENDENCIES="
+    build+run:
+        dev-libs/zziplib
+        media-libs/freetype:2
+        boost? ( dev-libs/boost )
+        freeimage? ( dev-libs/FreeImage )
+        gtk? ( x11-libs/gtk+ )
+        il? ( dev-libs/DevIL )
+        openexr? ( media-libs/openexr )
+"
+
+src_configure() {
+    local guitype
+    option gtk && guitype=gtk || guitype=Xt
+
+    DEFAULT_SRC_CONFIGURE_OPTION_WITHS+=( boost )
+    DEFAULT_SRC_CONFIGURE_OPTION_ENABLES+=( freeimage 'il devil' openexr )
+    DEFAULT_SRC_CONFIGURE_PARAMS+=(
+        --disable-ogre-demos
+        --disable-cg
+        --disable-cegui
+        --with-gui="${guitype}"
+    )
+
+    default
+}
+
+src_install() {
+    default
+
+    for what in Docs Samples ; do
+        insinto "/usr/share/doc/${PNVR}/${what}"
+        doins -r "${what}"/*
+    done
+}
