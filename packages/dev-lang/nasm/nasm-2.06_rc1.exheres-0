@@ -1,0 +1,18 @@
+
+SUPPORTED_AUTOCONF=( 2.5 )
+SUPPORTED_AUTOMAKE=( 1.10 )
+
+require "${PN}" autotools
+
+DEFAULT_SRC_PREPARE_PATCHES+=(
+    "${FILES}/${PN}-2.05.01-automagic-deps.patch"
+)
+
+DEFAULT_SRC_CONFIGURE_PARAMS+=(
+    --without-acrodist
+    --without-ps2pdf
+    --without-pstopdf
+)
+
+SLOT="0"
+PLATFORMS="~amd64"

@@ -1,0 +1,30 @@
+MYPV="${PV/_rc/rc}"
+MYPNV="${PNV/_rc/rc}"
+
+SUMMARY="An 80x86 and x86-64 assembler designed for portability and modularity."
+DESCRIPTION="
+    It supports a range of object file formats, including Linux and *BSD a.out,
+    ELF, COFF, Mach-O, Microsoft 16-bit OBJ, Win32 and Win64. It will also
+    output plain binary files. Its syntax is designed to be simple and easy to
+    understand, similar to Intel's but less complex
+"
+HOMEPAGE="http://www.${PN}.us/"
+DOWNLOADS="
+    ${HOMEPAGE}/pub/${PN}/releasebuilds/${MYPV}/${MYPNV}.tar.bz2
+    mirror://sourceforge/${PN}/${MYPNV}.tar.bz2
+"
+
+LICENCES=""
+MYOPTIONS=""
+
+DEPENDENCIES=""
+
+REMOTE_IDS="freshmeat:NASM - The Netwide Assembler"
+
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/doc/"
+
+DEFAULT_SRC_INSTALL_PARAMS+=(
+    INSTALLROOT="${IMAGE}"
+)
+
+WORK="${WORKBASE}/${MYPNV}"

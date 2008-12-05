@@ -1,0 +1,21 @@
+--- ./configure.in.orig	2008-12-05 17:57:11.000000000 +0100
++++ ./configure.in	2008-12-05 17:57:05.000000000 +0100
+@@ -67,10 +67,14 @@
+ PA_ADD_CFLAGS([-pedantic])
+ 
+ dnl Look for programs...
+-AC_CHECK_PROGS(NROFF,    nroff,    echo)
+-AC_CHECK_PROGS(ACRODIST, acrodist, false)
+-AC_CHECK_PROGS(PS2PDF,   ps2pdf,   false)
+-AC_CHECK_PROGS(PSTOPDF,  pstopdf,  false)
++AC_ARG_WITH([nroff], [AS_HELP_STRING([--with-nroff], [use nroff])])
++test "$with_nroff" != no && AC_CHECK_PROGS(NROFF,    nroff,    echo)
++AC_ARG_WITH([acrodist], [AS_HELP_STRING([--with-acrodist], [use acrodist])])
++test "$with_acrodist" != no && AC_CHECK_PROGS(ACRODIST, acrodist, false)
++AC_ARG_WITH([ps2pdf], [AS_HELP_STRING([--with-ps2pdf], [use ps2pdf])])
++test "$with_ps2pdf" != no && AC_CHECK_PROGS(PS2PDF,   ps2pdf,   false)
++AC_ARG_WITH([pstopdf], [AS_HELP_STRING([--with-pstopdf], [use pstopdf])])
++test "$with_pstopdf" != no && AC_CHECK_PROGS(PSTOPDF,  pstopdf,  false)
+ 
+ dnl Checks for header files.
+ AC_HEADER_STDC
