@@ -2,7 +2,7 @@
 SCM_REPOSITORY="git://anongit.freedesktop.org/git/nouveau/mesa"
 SCM_TYPE="git"
 SCM_BRANCH="gallium-0.1"
-require multilib scm toolchain-funcs
+require eutils multilib scm toolchain-funcs
 
 SUMMARY="nouveau mesa driver"
 DESCRIPTION="The nouveau driver for the mesa OpenGL implementation."
@@ -41,17 +41,24 @@ src_prepare() {
 
 src_compile() {
     get_target 
-    emake "${TARGET}" \
+    emake DRI_DIRS="nouveau" "${TARGET}" \
         CC=$(tc-getCC) \
-        CXX=$(tc-getCXX) \
-        || die "emake failed"
+        CXX=$(tc-getCXX)
 }
 
 src_install() {
+    mkdir -p "${IMAGE}/usr/$(get_libdir)/dri" || die "mkdir failed"
+    cp "$(get_libdir)/nouveau_dri.so" "${IMAGE}/usr/$(get_libdir)/dri" || die "cp failed"
     bin/installmesa "${IMAGE}/usr/$(get_libdir)/opengl/gallium" \
         || die "bin/installmesa failed"
 
     cd "${IMAGE}/usr/$(get_libdir)/opengl/gallium" || die "cd failed"
     mv include/{GL/*,} || die "mv failed"
     rmdir include/GL || die "rmdir failed"
+}
+
+pkg_postinst() {
+    einfo "If you encounter a black screen while rendering, you may have to add"
+    einfo " Option \"GlxVisuals\" \"all\""
+    einfo "to your xorg.conf, see ${HOMEPAGE}."
 }
