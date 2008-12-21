@@ -1,0 +1,10 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib64
+includedir=/usr/include
+dridriverdir=/usr/lib64/dri
+
+Name: dri
+Description: Direct Rendering Infrastructure
+Version: 7.2.0
+Cflags: -I${includedir}

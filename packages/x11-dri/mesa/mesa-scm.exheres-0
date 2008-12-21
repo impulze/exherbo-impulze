@@ -1,0 +1,185 @@
+# Copyright (c) 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+#   based on mesa.exlib in x11.git
+
+SCM_REPOSITORY="git://anongit.freedesktop.org/git/nouveau/mesa"
+SCM_BRANCH="gallium-0.1"
+require flag-o-matic multilib versionator scm-git
+
+OPENGL_DIR="xorg-x11"
+
+SUMMARY="Mesa's OpenGL library"
+HOMEPAGE="http://mesa3d.sourceforge.net/"
+
+LICENCES="FIXME"
+SLOT="0"
+
+PLATFORMS="~amd64"
+
+video_drivers="intel mach64 mga nouveau r128 radeon s3virge savage sis sunffb tdfx trident via"
+
+MYOPTIONS="examples motif python xcb
+platform: x86 amd64
+video_drivers: ${video_drivers}"
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+        x11-proto/glproto
+        x11-proto/inputproto
+        x11-proto/xextproto
+        x11-proto/xf86driproto
+        x11-proto/xf86vidmodeproto
+        x11-utils/makedepend
+    build+run:
+        x11-dri/eclectic-opengl
+        !x11-dri/mesa-lib
+        !x11-dri/mesa-demos
+        >=x11-dri/libdrm-2.3.1
+        x11-libs/libICE
+        x11-libs/libX11[xcb?]
+        >=x11-libs/libXdamage-1.1.1
+        x11-libs/libXext
+        x11-libs/libXi
+        x11-libs/libXmu
+        x11-libs/libXxf86vm
+        xcb? ( x11-libs/libxcb )
+    run:
+        python? ( dev-lang/python )
+"
+
+determine_target() {
+    TARGET=
+    option platform:amd64 && TARGET="linux-dri-x86-64"
+    option platform:x86 && TARGET="linux-dri-x86"
+
+    [[ -z "${TARGET}" ]] \
+        && die "I don't know how to build mesa for your platform."
+}
+
+driver_enable() {
+    if option ${1}; then
+        shift
+        DRI_DRIVERS="${DRI_DRIVERS} $@"
+    fi
+}
+
+add_config() {
+    echo ${@} >> "configs/${TARGET}" || die "echo >> configs/${TARGET} failed"
+}
+
+src_prepare() {
+    default
+
+    determine_target
+    rm -f "${WORK}"/include/GL/glut*h
+
+    driver_enable video_drivers:intel i810,i915,i965
+    driver_enable video_drivers:mach64 mach64
+    driver_enable video_drivers:mga mga
+    driver_enable video_drivers:nouveau nouveau
+    driver_enable video_drivers:r128 r128
+    driver_enable video_drivers:radeon radeon,r200,r300
+    driver_enable video_drivers:s3virge s3v
+    driver_enable video_drivers:savage savage
+    driver_enable video_drivers:sis sis
+    driver_enable video_drivers:sunffb ffb
+    driver_enable video_drivers:tdfx tdfx
+    driver_enable video_drivers:trident trident
+    driver_enable video_drivers:via unichrome
+    
+    find src/mesa/drivers/dri -name *.[hc] -exec egrep -l "\#define\W+DO_DEBUG\W+1" {} \; | \
+        xargs sed -i -re "s/\#define\W+DO_DEBUG\W+1/\#define DO_DEBUG 0/" ;
+
+    sed \
+        -e "/^LIB_DIR = /s:lib:$(get_libdir):" \
+        -e '/^SRC_DIRS = /s:glut/glx::' \
+        -e '/^INSTALL_DIR = /s:/usr/local:/usr:' \
+        -e '/^DRI_DRIVER_INSTALL_DIR = /s:lib:$(LIB_DIR):' \
+        -i configs/default \
+        || die "sed configs/default failed"
+
+    if ! option examples ; then
+        sed \
+            -e '/^PROGRAM_DIRS = /s:demos redbook samples glsl::' \
+            -i configs/default \
+            || die "sed configs/default failed (examples)"
+    fi
+
+    if option motif ; then
+        add_config 'GLW_LIB_DEPS += -lXm'
+        add_config 'GLW_SOURCES += GLwMDrawA.c'
+    fi
+
+    if option xcb ; then
+        add_config 'DEFINES += -DUSE_XCB'
+        for pkg in xcb x11-xcb xcb-glx ; do
+            add_config "X11_INCLUDES += $(pkg-config --cflags-only-I ${pkg})"
+            add_config "GL_LIB_DEPS += $(pkg-config --libs ${pkg})"
+        done
+    fi
+
+    add_config "EXTRA_LIB_PATH = $(pkg-config --libs-only-L x11)"
+    add_config 'ARCH_FLAGS += -DGLX_USE_TLS'
+    add_config "CFLAGS += ${CFLAGS}"
+    add_config "CXXFLAGS += ${CXXFLAGS}"
+    add_config "DRI_DIRS = ${DRI_DRIVERS}"
+
+    emake "${TARGET}" \
+        OPT_FLAGS="" \
+        CC=$(tc-getCC) \
+        CXX=$(tc-getCXX)
+}
+
+src_install() {
+    for bin in $(find "${WORK}/progs" -type f -perm -u=x) ; do
+        dobin "${bin}"
+    done
+
+    cd "${IMAGE}" || die "cd failed (1)"
+    rm ./usr/bin/glslnoise.c || die "rm failed (1)"
+
+    if ! option python ; then
+        rm ./usr/bin/api_speed.py || die "rm failed (2)"
+    else
+        sed \
+            -e 's:env python2:env python:' \
+            -i ./usr/bin/api_speed.py \
+            || die "sed ./usr/bin/api_speed.py failed"
+    fi
+
+    mkdir -p "${IMAGE}/tmp" || die "mkdir failed (1)"
+    cd "${WORK}" || die "cd failed (2)"
+    bin/installmesa "${IMAGE}/tmp" || die "bin/installmesa failed"
+
+    local opengl_path="/usr/$(get_libdir)/opengl/${OPENGL_DIR}"
+
+    dodir "${opengl_path}/"{lib,include}
+    dodir "/usr/$(get_libdir)"
+    dodir /usr/include
+
+    cd "${IMAGE}" || die "cd failed (3)"
+    mv ./tmp/lib/libGL.so* "${IMAGE}/${opengl_path}/lib" \
+        || die "mv failed (1)"
+    mv ./tmp/lib/* "${IMAGE}/usr/$(get_libdir)" \
+        || die "mv failed (2)"
+    mv ./tmp/include/GL/gl{,x}{,ext}.h "${IMAGE}/${opengl_path}/include" \
+        || die "mv failed (3)"
+    mv ./tmp/include/* "${IMAGE}/usr/include" \
+        || die "mv failed (4)"
+
+    rm -rf "${IMAGE}/tmp" || die "rm -rf failed"
+
+    insinto "/usr/$(get_libdir)/dri"
+    doins "${WORK}/$(get_libdir)/"*_dri.so
+
+    insinto "/usr/$(get_libdir)/pkgconfig"
+    doins "${FILES}/"*.pc
+
+    insinto "/usr/$(get_libdir)"
+    doins "${FILES}/"*.la
+}
+
+pkg_postinst() {
+    eclectic opengl set --use-old xorg-x11
+}
