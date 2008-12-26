@@ -1,0 +1,29 @@
+# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require toolchain-funcs
+
+SUMMARY="BIN -> ISO/WAV Converter"
+DESCRIPTION="
+    Convert .bin files into .iso files with a .cue file or try to create .cue
+    files from .bin files
+"
+HOMEPAGE="http://users.eastlink.ca/~doiron/${PN}/"
+SRC="${PN}${PV/./}_linux.c"
+DOWNLOADS="${HOMEPAGE}/linux/${SRC}"
+
+LICENCES="public-domain"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES=""
+
+src_compile() {
+    $(tc-getCC) ${CFLAGS} ${LDFLAGS} -o "${SRC}.out" "${FETCHEDDIR}/${SRC}" \
+        || die "compilation failed"
+}
+
+src_install() {
+    newbin "${SRC}.out" "${PN}"
+}
