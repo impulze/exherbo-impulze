@@ -1,0 +1,42 @@
+# Copyright (c) 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="The EXIF metainformation library."
+DESCRIPTION="Reads and writes EXIF metainformation from and to image files."
+HOMEPAGE="http://${PN}.sourceforge.net/"
+DOWNLOADS="mirror://sourceforge/${PN}/${PNV}.tar.bz2"
+
+LICENCES=""
+SLOT="0"
+PLATFORMS="~amd64"
+LANGS="cs de en_CA es fr nl pl ru sk sv vi"
+MYOPTIONS="
+    doc
+    linguas:
+        ${LANGS}"
+
+DEPENDENCIES="
+    build:
+        doc? ( app-doc/doxygen )
+        $(for lang in ${LANGS} ; do
+            echo "linguas:${lang}? ( sys-devel/gettext )"
+        done)"
+
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--disable-nls'
+    "--with-doc-dir=/usr/share/doc/${PNVR}"
+)
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'doc internal-docs' 'doc docs'
+)
+
+src_configure() {
+    for lang in ${LANGS} ; do
+        option linguas:${lang} && \
+            DEFAULT_SRC_CONFIGURE_PARAMS+=( '--enable-nls' ) && break
+    done
+
+    default
+}
