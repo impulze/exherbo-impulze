@@ -1,0 +1,10 @@
+--- ./src/glx/x11/dri2.c.orig	2008-12-27 03:52:52.000000000 +0100
++++ ./src/glx/x11/dri2.c	2008-12-27 03:52:55.000000000 +0100
+@@ -294,7 +294,6 @@
+     req->region = region;
+     req->dest = dest;
+     req->src = src;
+-    req->bitmask = 0;
+ 
+     _XReply(dpy, (xReply *)&rep, 0, xFalse);
+ 

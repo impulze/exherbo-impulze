@@ -1,11 +1,10 @@
 # Copyright (c) 2008 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-SCM_REPOSITORY="git://anongit.freedesktop.org/git/nouveau/mesa"
-SCM_BRANCH="gallium-0.1"
-require flag-o-matic multilib versionator scm-git
+SCM_REPOSITORY="${SCM_REPOSITORY:=git://anongit.freedesktop.org/mesa/mesa}"
+OPENGL_DIR="${OPENGL_DIR:=xorg-x11}"
 
-OPENGL_DIR="xorg-x11"
+require flag-o-matic multilib versionator scm-git
 
 SUMMARY="Mesa's OpenGL library"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
@@ -13,13 +12,14 @@ HOMEPAGE="http://mesa3d.sourceforge.net/"
 LICENCES="FIXME"
 SLOT="0"
 
-PLATFORMS="~amd64"
-
 video_drivers="intel mach64 mga nouveau r128 radeon s3virge savage sis sunffb tdfx trident via"
 
-MYOPTIONS="examples motif python xcb
-platform: x86 amd64
-video_drivers: ${video_drivers}"
+MYOPTIONS="
+    examples motif python xcb
+    platform:
+        x86 amd64
+    video_drivers:
+        ${video_drivers}"
 
 DEPENDENCIES="
     build:
@@ -31,9 +31,8 @@ DEPENDENCIES="
         x11-proto/xf86vidmodeproto
         x11-utils/makedepend
     build+run:
+        !x11-dri/mesa
         x11-dri/eclectic-opengl
-        !x11-dri/mesa-lib
-        !x11-dri/mesa-demos
         >=x11-dri/libdrm-2.3.1
         x11-libs/libICE
         x11-libs/libX11[xcb?]
@@ -57,10 +56,7 @@ determine_target() {
 }
 
 driver_enable() {
-    if option ${1}; then
-        shift
-        DRI_DRIVERS="${DRI_DRIVERS} $@"
-    fi
+    option ${1} && shift && DRI_DRIVERS="${DRI_DRIVERS} $@"
 }
 
 add_config() {
@@ -86,7 +82,7 @@ src_prepare() {
     driver_enable video_drivers:tdfx tdfx
     driver_enable video_drivers:trident trident
     driver_enable video_drivers:via unichrome
-    
+
     find src/mesa/drivers/dri -name *.[hc] -exec egrep -l "\#define\W+DO_DEBUG\W+1" {} \; | \
         xargs sed -i -re "s/\#define\W+DO_DEBUG\W+1/\#define DO_DEBUG 0/" ;
 
@@ -122,7 +118,7 @@ src_prepare() {
     add_config 'ARCH_FLAGS += -DGLX_USE_TLS'
     add_config "CFLAGS += ${CFLAGS}"
     add_config "CXXFLAGS += ${CXXFLAGS}"
-    add_config "DRI_DIRS = ${DRI_DRIVERS}"
+    add_config "DRI_DIRS = ${DRI_DRIVERS} ${ADDITIONAL_DRIVERS} swrast"
 
     emake "${TARGET}" \
         OPT_FLAGS="" \
@@ -157,17 +153,24 @@ src_install() {
     dodir "/usr/$(get_libdir)"
     dodir /usr/include
 
-    cd "${IMAGE}" || die "cd failed (3)"
-    mv ./tmp/lib/libGL.so* "${IMAGE}/${opengl_path}/lib" \
-        || die "mv failed (1)"
-    mv ./tmp/lib/* "${IMAGE}/usr/$(get_libdir)" \
-        || die "mv failed (2)"
-    mv ./tmp/include/GL/gl{,x}{,ext}.h "${IMAGE}/${opengl_path}/include" \
-        || die "mv failed (3)"
-    mv ./tmp/include/* "${IMAGE}/usr/include" \
-        || die "mv failed (4)"
+    cd "${IMAGE}" || die "cd ${IMAGE} failed"
 
-    rm -rf "${IMAGE}/tmp" || die "rm -rf failed"
+    # move opengl libs/includes into our eclectic path
+    mv ./tmp/lib/libGL.so* "./${opengl_path}/lib" \
+        || die "mv ./tmp/lib/libGL.so* failed"
+    mv ./tmp/include/GL/gl{,x}{,ext}.h "./${opengl_path}/include" \
+        || die "mv ./tmp/include/GL/* failed"
+
+    # move the rest of the libs and includes into system paths
+    mv ./tmp/include/* ./usr/include/ || die "mv ./tmp/include/* failed"
+    mv ./tmp/lib/* "./usr/$(get_libdir)" || die "mv ./tmp/lib/* failed"
+
+    # cleanup
+    rm -rf ./tmp || die "rm -rf failed"
+
+    insinto /usr/include/GL
+    doins -r "${WORK}/include/GL/internal"
+    rm ./usr/include/GL/internal/glcore.h || die "rm failed"
 
     insinto "/usr/$(get_libdir)/dri"
     doins "${WORK}/$(get_libdir)/"*_dri.so
@@ -177,4 +180,7 @@ src_install() {
 
     insinto "/usr/$(get_libdir)"
     doins "${FILES}/"*.la
+
+    mv "./usr/$(get_libdir)/libGL.la" "./${opengl_path}/lib" \
+        || die "mv failed (5)"
 }
