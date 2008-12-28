@@ -4,6 +4,8 @@
 SCM_REPOSITORY="${SCM_REPOSITORY:=git://anongit.freedesktop.org/mesa/mesa}"
 OPENGL_DIR="${OPENGL_DIR:=xorg-x11}"
 
+export_exlib_phases src_prepare src_install
+
 require flag-o-matic multilib versionator scm-git
 
 SUMMARY="Mesa's OpenGL library"
@@ -31,7 +33,6 @@ DEPENDENCIES="
         x11-proto/xf86vidmodeproto
         x11-utils/makedepend
     build+run:
-        !x11-dri/mesa
         x11-dri/eclectic-opengl
         >=x11-dri/libdrm-2.3.1
         x11-libs/libICE
@@ -63,7 +64,7 @@ add_config() {
     echo ${@} >> "configs/${TARGET}" || die "echo >> configs/${TARGET} failed"
 }
 
-src_prepare() {
+mesa_src_prepare() {
     default
 
     determine_target
@@ -126,71 +127,71 @@ src_prepare() {
         CXX=$(tc-getCXX)
 }
 
-src_install() {
+image_mv() {
+    mv ${@} || die "mv ${1} failed"
+}
+
+image_rm() {
+    rm ${@} || die "rm ${1} failed"
+}
+
+mesa_src_install() {
+    local lib_path="/usr/$(get_libdir)"
+    local opengl_path="${lib_path}/opengl/${OPENGL_DIR}"
+
+    bin/installmesa "${IMAGE}/tmp" || die "bin/installmesa failed"
+    cd "${IMAGE}" || die "cd ${IMAGE} failed"
+
     for bin in $(find "${WORK}/progs" -type f -perm -u=x) ; do
         dobin "${bin}"
     done
 
-    cd "${IMAGE}" || die "cd failed (1)"
-    rm ./usr/bin/glslnoise.c || die "rm failed (1)"
+    image_rm usr/bin/glslnoise.c
 
     if ! option python ; then
-        rm ./usr/bin/api_speed.py || die "rm failed (2)"
+        image_rm usr/bin/api_speed.py
     else
         sed \
             -e 's:env python2:env python:' \
-            -i ./usr/bin/api_speed.py \
-            || die "sed ./usr/bin/api_speed.py failed"
+            -i usr/bin/api_speed.py \
+            || die "sed usr/bin/api_speed.py failed"
     fi
 
-    mkdir -p "${IMAGE}/tmp" || die "mkdir failed (1)"
-    cd "${WORK}" || die "cd failed (2)"
-    bin/installmesa "${IMAGE}/tmp" || die "bin/installmesa failed"
-
-    local opengl_path="/usr/$(get_libdir)/opengl/${OPENGL_DIR}"
-
+    dodir "${lib_path}"
     dodir "${opengl_path}/"{lib,include}
-    dodir "/usr/$(get_libdir)"
     dodir /usr/include
 
-    cd "${IMAGE}" || die "cd ${IMAGE} failed"
-
     # move opengl libs/includes into our eclectic path
-    mv ./tmp/lib/libGL.so* "./${opengl_path}/lib" \
-        || die "mv ./tmp/lib/libGL.so* failed"
-    mv ./tmp/include/GL/gl{,x}{,ext}.h "./${opengl_path}/include" \
-        || die "mv ./tmp/include/GL/* failed"
+    image_mv tmp/lib/libGL.so* "./${opengl_path}/lib"
+    image_mv tmp/include/GL/gl{,x}{,ext}.h "./${opengl_path}/include"
 
     # move the rest of the libs and includes into system paths
-    mv ./tmp/include/* ./usr/include/ || die "mv ./tmp/include/* failed"
-    mv ./tmp/lib/* "./usr/$(get_libdir)" || die "mv ./tmp/lib/* failed"
+    image_mv tmp/include/* ./usr/include
+    image_mv tmp/lib/* "./${lib_path}"
 
     # cleanup
-    rm -rf ./tmp || die "rm -rf failed"
+    image_rm tmp -rf
 
     insinto /usr/include/GL
     doins -r "${WORK}/include/GL/internal"
-    rm ./usr/include/GL/internal/glcore.h || die "rm failed"
+    image_rm ./usr/include/GL/internal/glcore.h
 
-    insinto "/usr/$(get_libdir)/dri"
+    insinto "${lib_path}/dri"
     doins "${WORK}/$(get_libdir)/"*_dri.so
 
+    insinto "${lib_path}/pkgconfig"
+    doins "${FILES}/"*.pc
     sed \
         -e "s#__libdir__#$(get_libdir)#" \
-        -i "${FILES}/"*.pc \
+        -i "./${lib_path}/pkgconfig/"*.pc \
         || die "sed *.pc failed"
 
-    insinto "/usr/$(get_libdir)/pkgconfig"
-    doins "${FILES}/"*.pc
-
+    insinto "${lib_path}"
+    doins "${FILES}/"*.la
     sed \
         -e "s#__libdir__#$(get_libdir)#" \
-        -i "${FILES}/"*.la \
+        -i "./${lib_path}/"*.la \
         || die "sed *.la failed"
 
-    insinto "/usr/$(get_libdir)"
-    doins "${FILES}/"*.la
-
-    mv "./usr/$(get_libdir)/libGL.la" "./${opengl_path}/lib" \
-        || die "mv failed (5)"
+    image_mv "./${lib_path}/libGL.la" "./${opengl_path}/lib"
 }

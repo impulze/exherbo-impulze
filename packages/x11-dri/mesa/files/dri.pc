@@ -1,8 +1,8 @@
 prefix=/usr
 exec_prefix=${prefix}
-libdir=/usr/lib64
+libdir=/usr/__libdir__
 includedir=/usr/include
-dridriverdir=/usr/lib64/dri
+dridriverdir=/usr/__libdir__/dri
 
 Name: dri
 Description: Direct Rendering Infrastructure

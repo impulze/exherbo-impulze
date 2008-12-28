@@ -1,6 +1,6 @@
 prefix=/usr
 exec_prefix=${prefix}
-libdir=/usr/lib64
+libdir=/usr/__libdir__
 includedir=/usr/include
 
 Name: glu
