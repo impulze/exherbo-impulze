@@ -1,0 +1,139 @@
+# Copyright 2008 Bernd Steinhauser <berniyh@exherbo.org>
+# Distributed under the terms of the GNU General Public License v2
+
+# this is a copy of Bernd Steinhausers exheres in mozilla.git
+# with added enigmail support
+
+require mozilla
+
+ENIGMAIL_VERSION="0.95.7"
+ENIGMAIL_TARBALL="enigmail-${ENIGMAIL_VERSION}.tar.gz"
+
+SUMMARY="Mozilla's standalone mail client"
+DESCRIPTION="
+"
+HOMEPAGE=""
+DOWNLOADS="
+    ftp://ftp.mozilla.org/pub/${PN}/releases/${PV}/source/${PNV}-source.tar.bz2
+    enigmail? (
+        http://www.mozilla-enigmail.org/download/source/${ENIGMAIL_TARBALL}
+    )
+"
+
+LICENCES="MPL"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="bindist enigmail ldap svg xinerama"
+
+# libXIE?
+# AC_CHECK_LIB(XIE, XieFloGeometry, [MOZ_XIE_LIBS="-lXIE"],,
+# $XLIBS $XEXT_LIBS)
+# AC_CHECK_HEADER(X11/extensions/XIElib.h)
+
+# media-libs/libpng
+# dev-libs/nss
+
+DEPENDENCIES="
+    build:
+        app-arch/unzip
+        dev-util/pkg-config
+        x11-proto/xextproto
+        xinerama? ( x11-proto/xineramaproto )
+    build+run:
+        dev-libs/libIDL
+        dev-libs/nspr
+        media-libs/freetype
+        media-libs/jpeg
+        x11-libs/pango
+        x11-libs/cairo[svg?]
+        x11-libs/gtk+:2
+        x11-libs/libX11
+        x11-libs/libXext
+        x11-libs/libXt
+        x11-libs/libICE
+        x11-libs/libSM
+        xinerama? ( x11-libs/libXinerama )
+"
+
+WORK="${WORKBASE}"/mozilla
+ECONF_SOURCE="${WORKBASE}"/mozilla
+export MOZILLA_OFFICIAL=1
+export BUILD_OFFICIAL=1
+
+src_prepare() {
+    mozilla_src_prepare
+
+    sed \
+        -e "/^mozappdir/ c mozappdir = /usr/$(get_libdir)/${PN}" \
+        -i "${WORKBASE}"/mozilla/config/autoconf.mk.in \
+        || die "mozappdir sed failed."
+
+    if option enigmail ; then
+        mv "${WORKBASE}/enigmail" mailnews/extensions \
+            || die "mv enigmail failed"
+        cd mailnews/extensions/enigmail \
+            || die "cd enigmail failed"
+        expatch -p6 "${FILES}/enigmail_visibility_workaround.patch"
+    fi
+}
+
+src_configure() {
+    mkdir -p "${WORK}"
+    cd "${WORK}"
+
+    export MOZ_OBJDIR=@TOPSRCDIR@/../build
+    export MOZ_CO_PROJECT=browser
+    export MOZ_BUILD_PROJECTS=browser
+
+    econf \
+        --enable-application=mail \
+        --enable-crypto \
+        --enable-freetype \
+        --enable-optimize \
+        --enable-system-cairo \
+        --disable-mochitest \
+        --disable-gnomeui \
+        --disable-gnomevfs \
+        --disable-javaxpcom \
+        --disable-strip \
+        --disable-xprint \
+        --with-system-nspr \
+        --with-system-jpeg \
+        --with-system-png \
+        --with-system-zlib \
+        --with-libIDL \
+        --with-x \
+        --without-system-nss \
+        $(option_enable ldap) \
+        $(option_enable ldap ldap-experimental) \
+        $(option_enable !bindist official-branding) \
+        $(option_enable svg) \
+        --with-default-mozilla-five-home=/usr/$(get_libdir)/${PN} \
+        --with-distribution-id=org.exherbo
+}
+
+src_compile() {
+    default
+    if option enigmail ; then
+        cd mailnews/extensions/enigmail \
+            || die "cd enigmail failed"
+        ./makemake -r \
+            || die "./makemake -r failed"
+        emake \
+            || die "emake in enigmail failed"
+    fi
+}
+
+src_install() {
+    default
+    if option enigmail ; then
+        local enigmail_path="mailnews/extensions/enigmail"
+        local install_rdf="${enigmail_path}/package/install.rdf"
+        # taken from enigmail-0.95.7-r2.ebuild
+        local em_id=$(sed -n '/<em:id>/!d; s/.*\({.*}\).*/\1/; p; q' ${install_rdf})
+        local extension_path="/usr/$(get_libdir)/${PN}/extensions/${em_id}"
+
+        emake -C "${enigmail_path}" xpi
+        unzip -d "${IMAGE}/${extension_path}" "${WORK}/dist/bin"/*xpi
+    fi
+}
