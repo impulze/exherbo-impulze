@@ -1,0 +1,19 @@
+# Copyright 2008 Bernd Steinhauser <berniyh@exherbo.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require multilib
+
+export_exlib_phases src_prepare
+
+mozilla_src_prepare() {
+    default
+
+    sed \
+        -e "/^installdir/ c installdir = /usr/$(get_libdir)/${PN}" \
+        -e "/^includedir/ c includedir = /usr/include/${PN}" \
+        -e "/^idldir/ c idldir = /usr/share/idl/${PN}" \
+        -e "/^sdkdir/ c sdkdir = /usr/$(get_libdir)/${PN}-devel" \
+        -i "${WORKBASE}"/mozilla/config/autoconf.mk.in \
+        || die "sed failed."
+}
+
