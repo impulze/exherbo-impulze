@@ -1,0 +1,16 @@
+Upstream: No (considered finished)
+Reason: implicit declaration of `set{gid,uid,groups}`
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./src/prot.c.orig	2009-01-28 02:26:05.999975108 +0100
++++ ./src/prot.c	2009-01-28 02:26:42.815973230 +0100
+@@ -2,6 +2,9 @@
+ 
+ #include "hasshsgr.h"
+ #include "prot.h"
++#include <grp.h>
++#include <sys/types.h>
++#include <unistd.h>
+ 
+ int prot_gid(int gid)
+ {

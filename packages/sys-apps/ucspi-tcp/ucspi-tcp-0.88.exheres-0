@@ -1,0 +1,19 @@
+# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require djb
+
+SUMMARY="UNIX Client-Server Program Interface for TCP"
+DESCRIPTION="Command-Line tools for building TCP client-server applications."
+
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES=""
+
+DEFAULT_SRC_PREPARE_PATCHES+=(
+    "${FILES}/${PNV}-Makefile.patch"
+    "${FILES}/${PNV}-tcprulescheck.patch"
+    "${FILES}/${PNV}-error.patch"
+)

@@ -1,0 +1,52 @@
+Upstream: No (considered finished)
+Reason: own `auto-str`, `hasshsgr.h` and `uint64.h`
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./Makefile.orig	2009-01-28 07:35:12.327974383 +0100
++++ ./Makefile	2009-01-28 07:34:50.122973856 +0100
+@@ -37,7 +37,7 @@
+ 	./compile auto-str.c
+ 
+ auto_home.c: \
+-auto-str conf-home
++conf-home
+ 	./auto-str auto_home `head -1 conf-home` > auto_home.c
+ 
+ auto_home.o: \
+@@ -325,12 +325,6 @@
+ choose compile load trysgprm.c hassgprm.h1 hassgprm.h2
+ 	./choose cl trysgprm hassgprm.h1 hassgprm.h2 > hassgprm.h
+ 
+-hasshsgr.h: \
+-choose compile load tryshsgr.c hasshsgr.h1 hasshsgr.h2 chkshsgr \
+-warn-shsgr
+-	./chkshsgr || ( cat warn-shsgr; exit 1 )
+-	./choose clr tryshsgr hasshsgr.h1 hasshsgr.h2 > hasshsgr.h
+-
+ haswaitp.h: \
+ choose compile load trywaitp.c haswaitp.h1 haswaitp.h2
+ 	./choose cl trywaitp haswaitp.h1 haswaitp.h2 > haswaitp.h
+--- ./Makefile.orig	2009-01-28 09:48:11.618977777 +0100
++++ ./Makefile	2009-01-28 09:48:37.447974272 +0100
+@@ -785,10 +785,6 @@
+ compile uint32_unpack.c uint32.h
+ 	./compile uint32_unpack.c
+ 
+-uint64.h: \
+-choose compile load tryulong64.c uint64.h1 uint64.h2
+-	./choose clr tryulong64 uint64.h1 uint64.h2 > uint64.h
+-
+ unix.a: \
+ makelib alloc.o alloc_re.o buffer.o buffer_0.o buffer_1.o buffer_2.o \
+ buffer_copy.o buffer_get.o buffer_put.o env.o error.o error_str.o \
+--- ./Makefile.orig	2009-01-28 09:58:05.365225156 +0100
++++ ./Makefile	2009-01-28 09:58:09.345975141 +0100
+@@ -358,7 +358,7 @@
+ 
+ iopause.h: \
+ choose compile trypoll.c iopause.h1 iopause.h2
+-	./choose clr trypoll iopause.h1 iopause.h2 > iopause.h
++	./choose cl trypoll iopause.h1 iopause.h2 > iopause.h
+ 
+ iopause.o: \
+ compile iopause.c taia.h tai.h uint64.h select.h iopause.h taia.h

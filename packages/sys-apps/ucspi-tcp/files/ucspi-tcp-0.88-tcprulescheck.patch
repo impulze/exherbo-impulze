@@ -1,0 +1,14 @@
+Upstream: No (considered finished)
+Reason: implicit declaration of function `_exit`
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./tcprulescheck.c.orig	2009-01-28 03:38:46.337974185 +0100
++++ ./tcprulescheck.c	2009-01-28 03:39:11.139128906 +0100
+@@ -3,6 +3,7 @@
+ #include "strerr.h"
+ #include "env.h"
+ #include "rules.h"
++#include <unistd.h>
+ 
+ void found(char *data,unsigned int datalen)
+ {

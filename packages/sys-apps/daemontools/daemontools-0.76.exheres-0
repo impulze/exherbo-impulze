@@ -1,0 +1,45 @@
+# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require djb
+
+SUMMARY="A collection of free tools for managing UNIX services."
+DESCRIPTION="
+    A suite of utilities to start, run, log, and control server programs
+    known as daemons, reliably and securely.
+"
+
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES=""
+
+WORK="${WORKBASE}/admin/${PNV}"
+
+DEFAULT_SRC_PREPARE_PATCHES+=(
+    "${FILES}/${PNV}-Makefile.patch"
+    "${FILES}/${PNV}-pathexec_run.patch"
+    "${FILES}/${PNV}-prot.patch"
+    "${FILES}/${PNV}-seek_set.patch"
+    "${FILES}/${PNV}-error.patch"
+    "${FILES}/${PNV}-matchtest.patch"
+    "${FILES}/${PNV}-multilog.patch"
+    "${FILES}/${PNV}-supervise.patch"
+    "${FILES}/${PNV}-svscanboot.patch"
+)
+
+DEFAULT_SRC_INSTALL_EXTRA_SUBDIRS+=( src )
+
+src_compile() {
+    echo >src/rts.tests || "overwriting tests failed"
+    package/compile || die "compilation failed"
+}
+
+src_install() {
+    for cmd in command/* ; do
+        dobin "${cmd}"
+    done
+
+    keepdir /service
+}

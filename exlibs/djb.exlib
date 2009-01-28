@@ -1,0 +1,92 @@
+# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require toolchain-funcs
+
+export_exlib_phases src_prepare src_install
+
+HOMEPAGE_BASE="http://cr.yp.to"
+HOMEPAGE_EXTENSION="${HOMEPAGE_EXTENSION:-${PN}.html}"
+HOMEPAGE="${HOMEPAGE:-${HOMEPAGE_BASE}/${HOMEPAGE_EXTENSION}}"
+LICENCES="${LICENCES:-public-domain}"
+DOWNLOADS="${DOWNLOADS:-${HOMEPAGE_BASE}/${PN}/${PNV}.tar.gz}"
+
+# first give gcc, ranlib and ar a host-triplet
+# then replace some trivial code with newer extensions of gcc/C to
+# avoid running binaries on the host to obtain the information (i.e.
+# support cross-compiling)
+# TODO: check if iopause.h can be created by us
+djb_src_prepare() {
+    local basedir=$(dirname $(find -type f -name conf-cc))
+    local ranlib_file=$(grep -r ranlib . | sed 's/:.*//')
+
+    sed \
+        -e "/^gcc/s:.*:& ${CPPFLAGS} ${CFLAGS}:" \
+        -e "/^gcc/s:gcc:$(tc-getCC):" \
+        -i "${basedir}/conf-cc" || die "sed ${basedir}/conf-cc failed"
+
+    sed \
+        -e "/^gcc/s:.*:& ${LDFLAGS}:" \
+        -e "/^gcc/s:gcc:$(tc-getCC):" \
+        -i "${basedir}/conf-ld" || die "sed ${basedir}/conf-ld failed"
+
+    sed \
+        -e "/echo 'ar cr/s:ar:$(tc-getAR):" \
+        -e "/*) echo 'ranlib \"\\$/s:ranlib:$(tc-getRANLIB):" \
+        -i "${ranlib_file}" || die "sed ${ranlib_file} failed"
+
+    if [ -f "${basedir}/auto-str.c" ] ; then
+        cat >> "${basedir}/auto-str" <<EOF
+#!/bin/bash
+printf "const char \${1}[] = \"%s\";\n" \$(printf "\${2}" | od -A n -t o1 | tr ' ' '\\')
+EOF
+        chmod u+x "${basedir}/auto-str" || die "chmod auto-str failed"
+    fi
+
+    if [ -f "${basedir}/hasshsgr.h1" ] ; then
+        ln -s hasshsgr.h1 "${basedir}"/hasshsgr.h
+    fi
+
+    if [ -f "${basedir}/uint64.h1" ] ; then
+        cat >> "${basedir}/uint64.h" <<EOF
+#ifndef UINT64_H
+#define UINT64_H
+
+/* sysdep: -ulong64 */
+#include <stdint.h>
+
+typedef uint64_t uint64;
+
+#endif
+EOF
+    fi
+
+    if [ -f "${basedir}/conf-home" ] ; then
+        echo /usr > "${basedir}/conf-home" \
+            || die "creating conf-home failed"
+    fi
+ 
+    default
+}
+
+djb_src_install() {
+    local hierc_file=$(find -type f -name hier.c)
+    local count dir file opts
+    while read line ; do
+        line=$(echo ${line} | tr ',' ' ' | tr -d '"')
+        count=$(echo ${line} | wc -w)
+        [ ${count} -ne 6 ] && continue
+        dir=$(echo ${line} | awk '{ print $2 }')
+        file=$(echo ${line} | awk '{ print $3 }')
+        opts=$(echo ${line} | awk '{ print $6 }')
+        opts=${opts#?}
+        opts=${opts%??}
+
+        [ ! "${dir%bin}" = "${dir}" ] && dir="/usr/${dir}"
+
+        insinto "${dir}"
+        insopts "-m${opts}"
+        doins "${file}"
+    done < "${hierc_file}"
+    # $(tail -n+8 "${hierc_file}" | head -n-1 | tr ',' ' ' | awk '{ print $3 }' | tr -d '"') ; do
+}

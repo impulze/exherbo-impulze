@@ -1,0 +1,14 @@
+Upstream: No (considered finished)
+Reason: implicit declaration of `rename`
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./src/supervise.c.orig	2009-01-28 02:45:01.520225024 +0100
++++ ./src/supervise.c	2009-01-28 02:45:13.283280305 +0100
+@@ -15,6 +15,7 @@
+ #include "iopause.h"
+ #include "taia.h"
+ #include "deepsleep.h"
++#include <stdio.h>
+ 
+ #define FATAL "supervise: fatal: "
+ #define WARNING "supervise: warning: "

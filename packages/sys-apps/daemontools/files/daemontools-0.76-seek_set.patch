@@ -1,0 +1,14 @@
+Upstream: No (considered finished)
+Reason: implicit declaration of `lseek`
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./src/seek_set.c.orig	2009-01-28 02:28:21.689975232 +0100
++++ ./src/seek_set.c	2009-01-28 02:28:27.186224239 +0100
+@@ -1,6 +1,7 @@
+ /* Public domain. */
+ 
+ #include <sys/types.h>
++#include <unistd.h>
+ #include "seek.h"
+ 
+ #define SET 0 /* sigh */

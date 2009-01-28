@@ -1,0 +1,14 @@
+Upstream: No (considered finished)
+Reason: implicit declaration of `_exit`
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./src/matchtest.c.orig	2009-01-28 02:29:51.828978444 +0100
++++ ./src/matchtest.c	2009-01-28 02:29:57.041223886 +0100
+@@ -1,6 +1,7 @@
+ #include "match.h"
+ #include "buffer.h"
+ #include "str.h"
++#include <unistd.h>
+ 
+ int main(int argc,char **argv)
+ {

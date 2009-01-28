@@ -1,0 +1,14 @@
+Upstream: No (considered finished)
+Reason: implicit declaration of `_exit`
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./dnsq.c.orig	2009-01-28 18:09:34.363974616 +0100
++++ ./dnsq.c	2009-01-28 18:09:45.259090891 +0100
+@@ -10,6 +10,7 @@
+ #include "printpacket.h"
+ #include "parsetype.h"
+ #include "dns.h"
++#include <unistd.h>
+ 
+ #define FATAL "dnsq: fatal: "
+ 

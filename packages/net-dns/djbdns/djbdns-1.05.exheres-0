@@ -1,0 +1,39 @@
+# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require djb eutils
+
+SUMMARY="Collection of DNS tools."
+DESCRIPTION="
+    A DNS cache, a DNS server and some DNS client utilities.
+"
+
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    run:
+        sys-apps/daemontools
+        sys-apps/ucspi-tcp
+        user/dnscache
+        user/dnslog
+"
+
+DEFAULT_SRC_PREPARE_PATCHES+=(
+    "${FILES}/${PNV}-Makefile.patch"
+    "${FILES}/${PNV}-prot.patch"
+    "${FILES}/${PNV}-utime.patch"
+    # hier.c fixups?
+    "${FILES}/${PNV}-seek_set.patch"
+    "${FILES}/${PNV}-dnsq.patch"
+    "${FILES}/${PNV}-dnsqr.patch"
+    "${FILES}/${PNV}-error.patch"
+)
+
+pkg_config() {
+    if [ -z "${DNSCACHE_DIR}" -o -z "${DNSCACHE_IP}" ] ; then
+        :
+#        eerror "First setup
+    fi
+}

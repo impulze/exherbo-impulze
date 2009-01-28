@@ -1,0 +1,13 @@
+Upstream: No (considered finished)
+Reason: implicit declaration of `utime`
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./utime.c.orig	2009-01-28 18:08:22.084974424 +0100
++++ ./utime.c	2009-01-28 18:08:27.566974930 +0100
+@@ -1,5 +1,6 @@
+ #include <sys/types.h>
+ #include <sys/time.h>
++#include <utime.h>
+ #include "scan.h"
+ #include "exit.h"
+ 

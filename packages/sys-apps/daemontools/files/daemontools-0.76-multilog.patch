@@ -1,0 +1,15 @@
+Upstream: No (considered finished)
+Reason: implicit declaration of function `rename`, wrong headers for `execve`
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./src/multilog.c.orig	2009-01-28 02:30:57.404224908 +0100
++++ ./src/multilog.c	2009-01-28 02:31:34.363155751 +0100
+@@ -20,6 +20,8 @@
+ #include "sig.h"
+ #include "match.h"
+ #include "deepsleep.h"
++#include <stdio.h>
++#include <unistd.h>
+ 
+ #define FATAL "multilog: fatal: "
+ #define WARNING "multilog: warning: "

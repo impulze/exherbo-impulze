@@ -1,0 +1,14 @@
+Upstream: No (considered finished)
+Reason: implicit declaration of `execve`
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./src/pathexec_run.c.orig	2009-01-28 02:21:36.419974852 +0100
++++ ./src/pathexec_run.c	2009-01-28 02:21:26.292005223 +0100
+@@ -5,6 +5,7 @@
+ #include "str.h"
+ #include "env.h"
+ #include "pathexec.h"
++#include <unistd.h>
+ 
+ static stralloc tmp;
+ 

@@ -1,0 +1,20 @@
+Upstream: No (considered finished)
+Reason: wrong binary location, strip unneeded PATH
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./src/svscanboot.sh.orig	2009-01-28 02:59:40.495975612 +0100
++++ ./src/svscanboot.sh	2009-01-28 03:00:49.056973316 +0100
+@@ -1,11 +1,11 @@
+ 
+-PATH=/command:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin
++PATH=/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin
+ 
+ exec </dev/null
+ exec >/dev/null
+ exec 2>/dev/null
+ 
+-/command/svc -dx /service/* /service/*/log
++/usr/bin/svc -dx /service/* /service/*/log
+ 
+ env - PATH=$PATH svscan /service 2>&1 | \
+ env - PATH=$PATH readproctitle service errors: ................................................................................................................................................................................................................................................................................................................................................................................................................
