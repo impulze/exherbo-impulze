@@ -32,8 +32,19 @@ DEFAULT_SRC_PREPARE_PATCHES+=(
 )
 
 pkg_config() {
-    if [ -z "${DNSCACHE_DIR}" -o -z "${DNSCACHE_IP}" ] ; then
-        :
-#        eerror "First setup
+    if [ -z "${DNSCACHE_DIR}" ] ; then
+        einfo "Set DNSCACHE_DIR to a non-existing directory to setup dnscache."
+    else
+        einfo "Setting up dnscache in ${DNSCACHE_DIR}"
+        /usr/bin/dnscache-conf dnscache dnslog "${DNSCACHE_DIR}"
+        eend $?
+    fi
+
+    if [ -z "${TINYDNS_DIR}" ] ; then
+        einfo "Set TINYDNS_DIR to a non-existing directory to setup tinydns."
+    else
+        einfo "Setting up tinydns in ${TINYDNS_DIR}"
+        /usr/bin/tinydns-conf tinydns dnslog "${TINYDNS_DIR}"
+        eend $?
     fi
 }
