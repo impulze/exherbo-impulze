@@ -1,0 +1,7 @@
+# Copyright 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require "${PN}"
+
+SLOT="0"
+PLATFORMS="~amd64"
