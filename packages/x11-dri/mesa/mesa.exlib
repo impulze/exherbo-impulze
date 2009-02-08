@@ -6,7 +6,7 @@ OPENGL_DIR="${OPENGL_DIR:=xorg-x11}"
 
 export_exlib_phases src_prepare src_install
 
-require flag-o-matic multilib versionator scm-git
+require flag-o-matic multilib scm-git
 
 SUMMARY="Mesa's OpenGL library"
 HOMEPAGE="http://mesa3d.sourceforge.net/"

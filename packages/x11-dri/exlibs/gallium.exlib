@@ -4,7 +4,7 @@
 SCM_REPOSITORY="${SCM_REPOSITORY:=git://anongit.freedesktop.org/mesa/mesa}"
 OPENGL_DIR="${OPENGL_DIR:=xorg-x11}"
 
-require flag-o-matic multilib versionator scm-git
+require flag-o-matic multilib scm-git
 
 SUMMARY="Mesa's OpenGL library"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
