@@ -1,9 +1,7 @@
-# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Copyright 2008,2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-SUPPORTED_AUTOCONF=( 2.5 )
-SUPPORTED_AUTOMAKE=( 1.10 )
-require autotools
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
 
 SUMMARY="A library to read zip files."
 DESCRIPTION="The implementation is based only on the (free) subset of
