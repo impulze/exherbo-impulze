@@ -19,7 +19,7 @@ DEPENDENCIES="
         python? ( dev-lang/python )
         xmlto? ( app-text/xmlto )
     build+run:
-        sdl? ( media-libs/libSDL )
+        sdl? ( media-libs/SDL )
         zlib? ( sys-libs/zlib )
 "
 
