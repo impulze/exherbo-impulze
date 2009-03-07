@@ -1,0 +1,26 @@
+
+require toolchain-funcs
+
+SUMMARY="Turn an xterm into a gamelike console."
+DESCRIPTION="Slide down a terminal if you hit a shortcut key."
+HOMEPAGE="http://phrat.de"
+DOWNLOADS="${HOMEPAGE}/${PNV}.tar.gz"
+
+LICENCES="|| ( GPL-2 GPL-3 )"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        x11-proto/xproto
+    build+run:
+        x11-libs/libX11
+"
+
+DEFAULT_SRC_PREPARE_PATCHES+=(
+    "${FILES}/${PNV}-build.patch"
+)
+
+DEFAULT_SRC_COMPILE_PARAMS+=( CC="$(tc-getCC)" )
+DEFAULT_SRC_INSTALL_PARAMS+=( PREFIX="${IMAGE}/usr" )

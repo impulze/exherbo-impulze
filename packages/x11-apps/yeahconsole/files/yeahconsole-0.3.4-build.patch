@@ -1,0 +1,51 @@
+Upstream: Unknown
+Reason: sloppy build-system
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- yeahconsole-0.3.4/Makefile.orig	2009-03-07 07:37:16.608177143 +0100
++++ yeahconsole-0.3.4/Makefile	2009-03-07 08:09:50.830930099 +0100
+@@ -1,31 +1,28 @@
+ TARGET = yeahconsole
+-CC = gcc
+-#CC = cc
+-INSTALL = install
+-
+-PREFIX = /usr/local
+-
+-LIBS = -lX11 
+-INCLUDES = -I/usr/X11R6/include 
+-LIB_DIRS = -L/usr/X11R6/lib
+-FLAGS = -Os -Wall
++CC ?= gcc
++INSTALL ?= install
++PREFIX ?= /usr/local
++
++LIBS += -lX11 
++CPPFLAGS += -I/usr/X11R6/include 
++LDFLAGS += -L/usr/X11R6/lib
++CFLAGS += -Wall
+ 
+ OBJECTS := yeahconsole.o
+ SOURCES := yeahconsole.c
+ 
+ $(TARGET): $(OBJECTS) 
+-	$(CC) $(DEFINES) $(INCLUDES) $(LIB_DIRS) $(LIBS) -o $@ $<
+-	strip $@
++	$(CC) $(LDFLAGS) $(LIBS) -o $@ $<
+ 
+ $(OBJECTS): $(SOURCES) 
+-	$(CC) $(FLAGS)  $(DEFINES) $(INCLUDES) $(LIB_DIRS) -c -o $@ $<
++	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+ 
+ clean:
+-	rm -rf $(TARGET) $(OBJECTS)
++	rm -f $(TARGET) $(OBJECTS)
+ 
+ install: $(TARGET) $(MAN)
+-	$(INSTALL) -o root -g root -m 0755 $(TARGET) $(PREFIX)/bin
+-	
++	$(INSTALL) -d $(PREFIX)/bin
++	$(INSTALL) -m 0755 $(TARGET) $(PREFIX)/bin
+ 
+ uninstall:
+ 	rm -f $(PREFIX)/bin/$(TARGET)
