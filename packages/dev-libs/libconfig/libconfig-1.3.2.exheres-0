@@ -1,0 +1,20 @@
+# Copyright 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="A simple and small library for manipulating structured configuration files."
+DESCRIPTION="
+A simple and small library (38K - 66K) POSIX and Windows 2000 or later compliant configuration
+file parser.
+"
+HOMEPAGE="http://www.hyperrealm.com/$PN"
+DOWNLOADS="$HOMEPAGE/$PNV.tar.gz"
+
+LICENCES="LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS=""
+
+DEPENDENCIES="
+  build:
+    dev-libs/pkg-config
+"
