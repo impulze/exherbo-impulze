@@ -16,5 +16,5 @@ MYOPTIONS=""
 
 DEPENDENCIES="
   build:
-    dev-libs/pkg-config
+    dev-util/pkg-config
 "
