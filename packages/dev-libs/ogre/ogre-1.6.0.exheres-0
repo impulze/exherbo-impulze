@@ -31,19 +31,15 @@ DEPENDENCIES="
 WORK="${WORKBASE}/${PN}"
 
 src_configure() {
-    local guitype
-    option gtk && guitype=gtk || guitype=Xt
-
-    DEFAULT_SRC_CONFIGURE_OPTION_WITHS+=( boost )
-    DEFAULT_SRC_CONFIGURE_OPTION_ENABLES+=( freeimage 'il devil' openexr )
-    DEFAULT_SRC_CONFIGURE_PARAMS+=(
-        --disable-ogre-demos
-        --disable-cg
-        --disable-cegui
-        --with-gui="${guitype}"
-    )
-
-    default
+    econf \
+        --disable-ogre-demos \
+        --disable-cg \
+        --disable-cegui \
+        --with-gui=$(option gtk && echo gtk || echo Xt) \
+        $(option_enable boost) \
+        $(option_enable freeimage) \
+        $(option_enable il devil) \
+        $(option_enable openexr)
 }
 
 src_install() {
