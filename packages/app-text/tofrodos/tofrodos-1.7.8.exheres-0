@@ -1,0 +1,42 @@
+# Copyright 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require multilib toolchain-funcs
+
+SUMMARY="Conversion between Unix and MSDOS text files."
+DESCRIPTION="A text file conversion utility that converts ASCII files between
+MSDOS (or Windows) format, which traditionally have CR/LF (carriage
+return/line feed) pairs as their new line delimiters, and the Unix format,
+which usually have LFs (line feeds) to terminate each line."
+HOMEPAGE="http://www.thefreecountry.com/$PN/index.shtml"
+DOWNLOADS="http://$PN.sourceforge.net/download/$PNV.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES=""
+
+WORK="$WORKBASE/$PN/src"
+
+src_prepare() {
+    default
+
+    sed \
+        -e "/CC =/s:gcc:$(tc-getCC):" \
+        -e "/LD =/s:gcc:$(tc-getCC):" \
+        -e "/CFLAGS =/s:\$(CDEBUG):$CFLAGS:" \
+        -e "/LDFLAGS =/s:\$(LDEBUG):$LDFLAGS:" \
+        -i Makefile || die "sed Makefile failed"
+}
+
+src_install() {
+    dobin fromdos
+    doman fromdos.1
+
+    for link in todos dos2unix unix2dos ; do
+        dosym fromdos /usr/bin/$link
+        dosym fromdos.1 /usr/share/man/man1/$link.1
+    done
+}
