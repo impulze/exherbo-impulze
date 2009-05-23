@@ -22,7 +22,7 @@ DEPENDENCIES="
         dev-libs/zziplib
         media-libs/freetype:2
         boost? ( dev-libs/boost )
-        freeimage? ( dev-libs/FreeImage )
+        freeimage? ( media-libs/FreeImage )
         gtk? ( x11-libs/gtk+ )
         il? ( dev-libs/DevIL )
         openexr? ( media-libs/openexr )
