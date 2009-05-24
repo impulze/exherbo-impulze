@@ -1,4 +1,4 @@
-# Copyright 2008,2009 Daniel Mierswa <impulze@impulze.org>
+# Copyright 2008, 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
