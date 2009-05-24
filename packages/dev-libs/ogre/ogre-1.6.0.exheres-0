@@ -24,7 +24,7 @@ DEPENDENCIES="
         boost? ( dev-libs/boost )
         freeimage? ( media-libs/FreeImage )
         gtk? ( x11-libs/gtk+ )
-        il? ( dev-libs/DevIL )
+        il? ( media-libs/DevIL )
         openexr? ( media-libs/openexr )
 "
 
