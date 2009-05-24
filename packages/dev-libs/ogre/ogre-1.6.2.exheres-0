@@ -1,5 +1,7 @@
-# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Copyright 2008, 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
+
+MYPV="$(ever replace_all -)"
 
 SUMMARY="A graphics rendering engine."
 DESCRIPTION="OGRE (Object-Oriented Graphics Rendering Engine) is a
@@ -7,14 +9,15 @@ scene-oriented, flexible 3D engine written in C++ designed to make it easier
 and more intuitive for developers to produce applications utilising
 hardware-accelerated 3D graphics"
 HOMEPAGE="http://ogre3d.org/"
-DOWNLOADS="mirror://sourceforge/${PN}/${PN}-v${PV//./-}.tar.bz2"
+DOWNLOADS="mirror://sourceforge/$PN/$PN-v$MYPV.tar.bz2"
 
 LICENCES="LGPL-2.1"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
-    boost freeimage gtk il openexr
+    boost freeimage gtk il openexr X
     ( freeimage il ) [[ number-selected = at-most-one ]]
+    ( X gtk ) [[ number-selected = exactly-one ]]
 "
 
 DEPENDENCIES="
@@ -26,27 +29,34 @@ DEPENDENCIES="
         gtk? ( x11-libs/gtk+ )
         il? ( media-libs/DevIL )
         openexr? ( media-libs/openexr )
+        X? (
+            x11-libs/libICE
+            x11-libs/libSM
+            x11-libs/libXt
+        )
 "
 
-WORK="${WORKBASE}/${PN}"
+WORK="$WORKBASE/$PN"
 
 src_configure() {
+    local myconf
+
+    option X && myconf+=( --with-gui=Xt )
+    option gtk && myconf+=( --with-gui=gtk )
+
     econf \
         --disable-ogre-demos \
         --disable-cg \
         --disable-cegui \
-        --with-gui=$(option gtk && echo gtk || echo Xt) \
         $(option_enable boost) \
         $(option_enable freeimage) \
         $(option_enable il devil) \
-        $(option_enable openexr)
+        $(option_enable openexr) \
+        ${myconf[@]}
 }
 
 src_install() {
     default
 
-    for what in Docs Samples ; do
-        insinto "/usr/share/doc/${PNVR}/${what}"
-        doins -r "${what}"/*
-    done
+    dodoc -r Docs
 }
