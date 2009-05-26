@@ -3,7 +3,7 @@
 
 SCM_REPOSITORY="https://${PN}.svn.sourceforge.net/svnroot/${PN}/linux"
 
-require "${PN}" scm-svn
+require usbip scm-svn
 
 DOWNLOADS=""
 SLOT="0"
