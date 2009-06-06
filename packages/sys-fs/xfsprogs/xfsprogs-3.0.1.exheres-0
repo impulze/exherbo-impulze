@@ -1,0 +1,25 @@
+# Copyright 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="XFS userspace tools"
+DESCRIPTION="Userspace utilities for the XFS filesystem including fsck and mkfs."
+HOMEPAGE="http://oss.sgi.com/projects/xfs/"
+DOWNLOADS="ftp://oss.sgi.com/projects/xfs/cmd_tars/$PNV.tar.gz"
+
+LICENCES="GPL LGPL-2.1"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        sys-fs/e2fsprogs
+"
+
+DEFAULT_SRC_CONFIGURE_PARAMS+=( OPTIMIZER=' ' DEBUG=' ' )
+DEFAULT_SRC_INSTALL_PARAMS+=( DIST_ROOT="$IMAGE" )
+
+src_prepare() {
+    default
+    sed -e "/^PKG_DOC_DIR\t=/s:@pkg_name@:$PNV:" -i include/builddefs.in || die "sed failed"
+}
