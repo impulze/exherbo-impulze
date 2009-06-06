@@ -26,5 +26,5 @@ src_prepare() {
 
 src_install() {
     default
-    rm "/usr/share/doc/$PNV/release.sh" || die "failed to remove release.sh"
+    rm "$IMAGE/usr/share/doc/$PNV/release.sh" || die "failed to remove release.sh"
 }
