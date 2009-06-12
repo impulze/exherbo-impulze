@@ -1,0 +1,12 @@
+# Copyright 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+SCM_REPOSITORY="svn://tron.homeunix.org/ja2"
+require scm-svn jaggedalliance2-stracciatella
+
+PLATFORMS="~amd64"
+
+src_unpack() {
+    scm_src_unpack
+    default
+}

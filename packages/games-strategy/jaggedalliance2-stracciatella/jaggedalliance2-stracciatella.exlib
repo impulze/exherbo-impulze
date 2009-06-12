@@ -1,0 +1,73 @@
+# Copyright 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require toolchain-funcs
+
+SUMMARY="A tactical role-playing game. Third game of the Jagged Alliance series."
+DESCRIPTION="A very high rated tactical role-playing game with a big community and
+lots of modifications."
+HOMEPAGE="http://ja2.dragonriders.de"
+DOWNLOADS="editor? ( http://tron.homeunix.org/ja2/editor.slf.gz -> ${PN}-editor.slf.gz )"
+
+if [[ "${PV}" != scm ]] ; then
+    DOWNLOADS+=" http://tron.homeunix.org/ja2/ja2-${PV}-source.tar.bz2"
+    WORK="${WORKBASE}/ja2-${PV}"
+fi
+
+LICENCES="SFI-SCLA"
+SLOT="0"
+
+MYOPTIONS="debug demo editor
+linguas: (
+    ( nl en fr de it pl ru ) [[ description = [ Jagged Alliance 2 Vanilla Translations ] ]]
+    ( ru_gold )              [[ description = [ Jagged Alliance 2 Gold Translations ] ]]
+) [[ number-selected = exactly-one ]]"
+
+DEPENDENCIES="
+    build+run:
+        media-libs/SDL
+"
+
+UPSTREAM_CHANGELOG="http://tron.homeunix.org/ja2"
+
+ja2_config() {
+    until [ $# -eq 0 ] ; do
+        echo "$1" >> config.default
+        shift
+    done
+}
+
+src_prepare() {
+    sed "s:TILECACHE:[Tt][Ii][Ll][Ee][Cc][Aa][Cc][Hh][Ee]:g" -i Makefile || die "sed Makefile failed"
+    option debug && ja2_config _DEBUG=yes WITH_SOUND_DEBUG=yes
+    option demo && ja2_config WITH_DEMO=yes
+    option editor && ja2_config JA2EDITOR=yes
+    option linguas:nl && ja2_config LNG=DUTCH
+    option linguas:en && ja2_config LNG=ENGLISH
+    option linguas:fr && ja2_config LNG=FRENCH
+    option linguas:de && ja2_config LNG=GERMAN
+    option linguas:it && ja2_config LNG=ITALIAN
+    option linguas:pl && ja2_config LNG=POLISH
+    option linguas:ru && ja2_config LNG=RUSSIAN
+    option linguas:ru_gold && ja2_config LNG=RUSSIAN_GOLD
+    ja2_config CC=$(tc-getCC) CXX=$(tc-getCXX)
+    ja2_config PREFIX="${IMAGE}/usr" MANPREFIX="${IMAGE}/usr/share"
+}
+
+src_install() {
+    default
+    insinto /usr/share/${PN}
+    doins Makefile
+    option editor && newins "${WORKBASE}/${PN}-editor.slf" editor.slf
+}
+
+pkg_postinst() {
+    elog "Before playing:"
+    elog "\tmake -f /usr/share/${PN}/Makefile SGPDATADIR=/path/to/data lowercase"
+    if option editor ; then
+        elog "\tcp /usr/share/${PN}/editor.slf /path/to/data/Data/"
+    fi
+    elog "Then put:"
+    elog "\tdata_dir = /path/to/data"
+    elog "into ~/.ja2/ja2.ini where /path/to/data is the topmost data directory (i.e. /path/to/data/Data exists)"
+}
