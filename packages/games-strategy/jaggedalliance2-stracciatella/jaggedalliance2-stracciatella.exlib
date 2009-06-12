@@ -63,11 +63,11 @@ src_install() {
 
 pkg_postinst() {
     elog "Before playing:"
-    elog "\tmake -f /usr/share/${PN}/Makefile SGPDATADIR=/path/to/data lowercase"
+    elog "  make -f /usr/share/${PN}/Makefile SGPDATADIR=/path/to/data lowercase"
     if option editor ; then
-        elog "\tcp /usr/share/${PN}/editor.slf /path/to/data/Data/"
+        elog "  cp /usr/share/${PN}/editor.slf /path/to/data/Data/"
     fi
     elog "Then put:"
-    elog "\tdata_dir = /path/to/data"
+    elog "  data_dir = /path/to/data"
     elog "into ~/.ja2/ja2.ini where /path/to/data is the topmost data directory (i.e. /path/to/data/Data exists)"
 }
