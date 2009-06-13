@@ -1,0 +1,90 @@
+# Copyright 2008, 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require toolchain-funcs
+
+export_exlib_phases src_prepare src_configure
+
+SUMMARY="A generic and open source machine emulator and virtualizer."
+DESCRIPTION="
+    When used as a machine emulator, it can run OS and programs made for one
+    machine on a different machine. It claims to achieve good performances
+    because of dynamic translation.'
+"
+HOMEPAGE="http://bellard.org/$PN"
+
+LICENCES="GPL-2"
+MYOPTIONS="
+    bluetooth
+    curl
+    doc
+    gnutls
+    ncurses     [[ description = [ ncurses interface for the virtual machine ] ]]
+    pulseaudio
+    sasl
+    sdl         [[ description = [ SDL interface for the virtual machine and SDL audio module ] ]]
+    static
+    vde         [[ description = [ Enables support for the Virtual Distributed Ethernet networking system ] ]]
+"
+
+DEPENDENCIES="
+    build+run:
+        bluetooth? ( net-wireless/bluez )
+        curl? ( net-misc/curl )
+        pulseaudio? ( media-sound/pulseaudio )
+        gnutls? ( dev-libs/gnutls )
+        ncurses? ( sys-libs/ncurses )
+        sasl? ( net-libs/cyrus-sasl )
+        sdl? ( media-libs/SDL )
+        vde? ( net/vde )
+"
+
+REMOTE_IDS="freshmeat:qemu"
+
+UPSTREAM_CHANGELOG="$HOMEPAGE/changelog.html"
+UPSTREAM_DOCUMENTATION="$HOMEPAGE/user-doc.html"
+UPSTREAM_RELEASE_NOTES="$HOMEPAGE/index.html"
+
+# TODO: configure creates automagic dependency and static linkage with SDL
+
+qemu_src_configure ()
+{
+    local audio_drv
+    audio_drv+=( alsa )
+    option sdl && audio_drv+=( sdl )
+    option pulseaudio && audio_drv+=( pa )
+
+    local myconf
+    option ncurses || myconf+=( --disable-curses )
+    option vde || myconf+=( --disable-vde )
+    option bluetooth || myconf+=( --disable-bluez )
+    option static && myconf+=( --static )
+    option sdl || myconf+=( --disable-sdl )
+    option gnutls || myconf+=( --disable-vnc-tls )
+    option sasl || myconf+=( --disable-vnc-sasl )
+    option doc || myconf+=( --disable-docs )
+    option curl || myconf+=( --disable-curl )
+    [[ -n "${audio_drv[@]}" ]] && myconf+=( --enable-mixemu )
+
+    ./configure \
+        --prefix=/usr \
+        --host-cc="$(tc-getBUILD_CC)" \
+        --cc="$(tc-getCC)" \
+        --extra-cflags="$CFLAGS" \
+        --extra-ldflags="$LDFLAGS" \
+        --disable-kqemu \
+        --disable-strip \
+        --audio-drv-list="$(echo ${audio_drv[@]} | tr ' ' ',')" \
+        ${myconf[@]} \
+        $@ \
+        || die "configure failed"
+}
+
+qemu_src_prepare ()
+{
+    sed \
+        -e '/^CFLAGS=/s:-O2 -g::' \
+        -e '/^LDFLAGS=/s:-g::' \
+        -i configure \
+        || die "sed configure failed";
+}

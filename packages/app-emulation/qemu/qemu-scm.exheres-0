@@ -1,0 +1,15 @@
+# Copyright 2008 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require "${PN}"
+
+SCM_REPOSITORY="git://git.savannah.nongnu.org/qemu.git"
+require scm-git
+
+PLATFORMS="~amd64"
+SLOT="0"
+
+# won't build at the moment, if one figures out that it builds
+# occasionaly, one can remove that
+RESTRICT="test"
+
