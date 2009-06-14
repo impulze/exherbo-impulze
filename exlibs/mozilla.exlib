@@ -3,7 +3,12 @@
 
 require multilib
 
-export_exlib_phases src_prepare
+export_exlib_phases src_unpack src_prepare
+
+mozilla_src_unpack() {
+    default
+    mkdir -p "${WORK}" || die "creating ${WORK} failed"
+}
 
 mozilla_src_prepare() {
     default
