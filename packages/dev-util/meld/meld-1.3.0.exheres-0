@@ -1,0 +1,38 @@
+# Copyright 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require multilib
+
+SUMMARY="A visual diff and merge tool."
+DESCRIPTION="Rich featured diff and merge tool that integrates with most
+version control systems. It's also possible to do 3-way diffs."
+HOMEPAGE="http://meld.sourceforge.net/"
+DOWNLOADS="mirror://gnome/sources/meld/$(ever range 1-2)/meld-${PV}.tar.bz2"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+REMOTE_IDS="freshmeat:Meld sourceforge:Meld"
+
+DEPENDENCIES="
+    build:
+        sys-devel/gettext
+    build+run:
+        dev-lang/python
+    run:
+        gnome-bindings/gnome-python[gnome][gnomevfs]
+        gnome-bindings/pygtk"
+
+# gnome-python-extras should provide pygtksourceview (optional support)
+# scrollkeeper can probably build the documentation
+# LANGUAGES="" prevents building help/ subdir, which seems to need that
+
+DEFAULT_SRC_COMPILE_PARAMS=( prefix=/usr libdir=/usr/$(get_libdir) docdir_='$(docdir)'/${PNV} LANGUAGES="" )
+DEFAULT_SRC_INSTALL_PARAMS=( ${DEFAULT_SRC_COMPILE_PARAMS[@]} )
+
+src_install() {
+    default
+    rm -r "${IMAGE}/usr/share/gnome" || die "failed to remove gnome share dir"
+}
