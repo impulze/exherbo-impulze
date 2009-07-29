@@ -17,7 +17,11 @@ DOWNLOADS="
     mirror://sourceforge/${PN}/${MYPNV}.tar.bz2
 "
 
-LICENCES=""
+if ever at_least 2.07 ; then
+    LICENCES="BSD-2"
+else
+    LICENCES="LGPL-2.1"
+fi
 MYOPTIONS=""
 
 DEPENDENCIES=""
