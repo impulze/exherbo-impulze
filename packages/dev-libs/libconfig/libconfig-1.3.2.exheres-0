@@ -20,3 +20,4 @@ DEPENDENCIES="
   build:
     dev-util/pkg-config
 "
+

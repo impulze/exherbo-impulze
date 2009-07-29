@@ -36,3 +36,4 @@ src_install() {
     default
     rm -r "${IMAGE}/usr/share/gnome" || die "failed to remove gnome share dir"
 }
+

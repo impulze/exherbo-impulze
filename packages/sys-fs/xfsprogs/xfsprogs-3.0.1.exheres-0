@@ -28,3 +28,4 @@ src_install() {
     default
     rm "$IMAGE/usr/share/doc/$PNV/release.sh" || die "failed to remove release.sh"
 }
+

@@ -89,3 +89,4 @@ qemu_src_prepare ()
         -i configure \
         || die "sed configure failed";
 }
+

@@ -44,3 +44,4 @@ src_install() {
 
     rmdir "${IMAGE}/usr/share/usbip"
 }
+

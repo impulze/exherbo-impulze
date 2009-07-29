@@ -48,3 +48,4 @@ pkg_config() {
         eend $?
     fi
 }
+

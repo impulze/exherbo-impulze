@@ -8,3 +8,4 @@ require usbip scm-svn
 DOWNLOADS=""
 SLOT="0"
 PLATFORMS="~amd64"
+

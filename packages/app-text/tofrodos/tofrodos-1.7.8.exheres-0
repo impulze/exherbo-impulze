@@ -40,3 +40,4 @@ src_install() {
         dosym fromdos.1 /usr/share/man/man1/$link.1
     done
 }
+

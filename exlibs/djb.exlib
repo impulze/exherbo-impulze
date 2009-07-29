@@ -90,3 +90,4 @@ djb_src_install() {
     done < "${hierc_file}"
     # $(tail -n+8 "${hierc_file}" | head -n-1 | tr ',' ' ' | awk '{ print $3 }' | tr -d '"') ; do
 }
+

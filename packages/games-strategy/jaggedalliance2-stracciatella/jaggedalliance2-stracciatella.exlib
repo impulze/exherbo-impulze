@@ -71,3 +71,4 @@ pkg_postinst() {
     elog "  data_dir = /path/to/data"
     elog "into ~/.ja2/ja2.ini where /path/to/data is the topmost data directory (i.e. /path/to/data/Data exists)"
 }
+

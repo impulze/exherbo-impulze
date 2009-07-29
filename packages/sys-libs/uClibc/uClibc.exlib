@@ -31,3 +31,4 @@ src_compile() {
         NM=$(tc-getNM) \
         HOSTCC=$(tc-getBUILD_CC)
 }
+
