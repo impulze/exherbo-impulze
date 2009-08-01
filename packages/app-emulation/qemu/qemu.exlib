@@ -76,6 +76,7 @@ qemu_src_configure ()
         --disable-strip \
         --audio-drv-list="$(echo ${audio_drv[@]} | tr ' ' ',')" \
         ${myconf[@]} \
+        ${EXTRA_ECONF} \
         $@ \
         || die "configure failed"
 }
