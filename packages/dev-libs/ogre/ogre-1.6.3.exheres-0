@@ -15,8 +15,8 @@ LICENCES="LGPL-2.1"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
-    boost freeimage gtk il openexr X
-    ( freeimage il ) [[ number-selected = at-most-one ]]
+    boost devil freeimage gtk openexr X
+    ( devil freeimage ) [[ number-selected = at-most-one ]]
     ( X gtk ) [[ number-selected = exactly-one ]]
 "
 
@@ -26,9 +26,9 @@ DEPENDENCIES="
         media-libs/freetype:2
 
         boost? ( dev-libs/boost )
+        devil? ( media-libs/DevIL )
         freeimage? ( media-libs/FreeImage )
         gtk? ( x11-libs/gtk+ )
-        il? ( media-libs/DevIL )
         openexr? ( media-libs/openexr )
 
         X? (
@@ -57,8 +57,8 @@ src_configure() {
         --disable-cg \
         --disable-cegui \
         $(option_enable boost) \
+        $(option_enable devil) \
         $(option_enable freeimage) \
-        $(option_enable il devil) \
         $(option_enable openexr) \
         ${myconf[@]}
 }
