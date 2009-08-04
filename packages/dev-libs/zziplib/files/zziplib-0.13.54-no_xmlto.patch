@@ -1,0 +1,16 @@
+Upstream: Unknown
+Reason: xmlto pulls docbook-xml-dtd:4.1.2 dependency though
+        it is optional
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- ./configure.ac.orig	2009-08-04 15:22:18.000000000 +0200
++++ ./configure.ac	2009-08-04 15:27:00.000000000 +0200
+@@ -90,7 +90,7 @@
+ AC_PATH_PROGS(PERL, perl5 perl, echo no perl found for)
+ AC_PATH_PROGS(PYTHON, python2.2 python2.3 python, echo no python found for)
+ AC_PATH_PROGS(MKZIP, zip pkzip, :)
+-AC_PATH_PROGS(XMLTO, xmlto, :)
++AC_PATH_PROGS(XMLTO, :, :)
+ 
+ AC_C_INLINE
+ AC_C_CONST
