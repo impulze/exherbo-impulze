@@ -1,0 +1,4 @@
+require vhba-module
+
+PLATFORMS="~amd64"
+

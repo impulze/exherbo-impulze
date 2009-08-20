@@ -1,0 +1,4 @@
+require cdemu
+
+PLATFORMS="~amd64"
+

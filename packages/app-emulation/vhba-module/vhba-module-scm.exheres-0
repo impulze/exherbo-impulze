@@ -1,0 +1,10 @@
+require vhba-module
+
+PLATFORMS="~amd64"
+
+src_install() {
+    vhba-module_src_install
+
+    find "${IMAGE}/usr/src/${PNV}" -type d -name .svn -exec rm -r {} \;
+}
+

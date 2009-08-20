@@ -1,0 +1,4 @@
+require cdemud
+
+PLATFORMS="~amd64"
+

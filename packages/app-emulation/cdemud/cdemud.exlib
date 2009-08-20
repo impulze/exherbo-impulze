@@ -1,0 +1,17 @@
+require cdemu-common [ name=cdemu-daemon autogen=true ]
+
+SLOT="0"
+
+DEPENDENCIES="
+    build+run:
+        dev-libs/libdaemon[>=0.10]
+        dev-libs/libmirage[>=${PV}]
+        dev-libs/dbus-glib[>=0.66]
+        dev-libs/glib[>=2.6]
+        media-libs/libao[>=0.8.0]
+        sys-apps/dbus[>=0.60]
+        sys-fs/sysfsutils
+    run:
+        app-emulation/vhba-module
+"
+

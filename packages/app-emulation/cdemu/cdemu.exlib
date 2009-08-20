@@ -1,0 +1,11 @@
+require cdemu-common [ name=cdemu-client autogen=true ]
+
+SLOT="0"
+
+DEPENDENCIES="
+    build+run:
+        app-emulation/cdemud
+        dev-lang/python
+        dev-libs/glib
+"
+

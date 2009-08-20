@@ -1,0 +1,30 @@
+export_exlib_phases src_install pkg_postinst
+require cdemu-common [ name=vhba-module ]
+
+SUMMARY="Kernel module for CD-ROM device emulation."
+DESCRIPTION="VHBA module provides (V)irtual (SCSI) (H)ost (B)us (A)dapter, which is the link between userspace cdemu daemon and linux kernel."
+
+SLOT="0"
+
+DEPENDENCIES="
+    run:
+        group/cdemu
+"
+
+SKIP_FUNCTIONS="compile"
+
+vhba-module_src_install() {
+    dodir /usr/src
+    cp -pPR "${WORK}" "${IMAGE}/usr/src/${PNV}"
+
+    insinto /etc/udev/rules.d
+    hereins 90-vhba.rules <<EOF
+KERNEL=="vhba_ctl", NAME="%k", MODE="0660", OWNER="root", GROUP="cdemu"
+EOF
+}
+
+vhba-module_pkg_postinst() {
+    ewarn "This exheres does not build the module, you will have to do this"
+    ewarn "on your own. The source code has been installed to /usr/src/${PNV}"
+}
+

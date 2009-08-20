@@ -1,0 +1,41 @@
+myexparam name=
+myexparam -b autogen=false
+
+exparam -v name name
+exparam -v autogen autogen
+
+WORK="${WORKBASE}/${name}-${PV}"
+
+if [[ "${PV}" == scm ]] ; then
+    SCM_SUBPATH="${name}"
+    SCM_CHECKOUT_TO="${name}"
+    SCM_UNPACK_TO="${WORK}"
+    SCM_REPOSITORY="https://cdemu.svn.sourceforge.net/svnroot/cdemu/"
+    require scm-svn
+
+    ${autogen} && require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
+else
+    DOWNLOADS="mirror://sourceforge/cdemu/$(exparam name)-${PV}.tar.bz2"
+fi
+
+HOMEPAGE="http://cdemu.sourceforge.net/"
+
+if [[ "${PN}" == cdemu || "${PN}" == cdemud ]] ; then
+    SUMMARY="A CD/DVD-ROM device emulator."
+    DESCRIPTION="A CD/DVD-ROM device emulator for Linux.
+It is a from-scratch rewrite of the legacy CDEmu project,
+which was started by Robert Penz."
+fi
+
+LICENCES="GPL-2"
+
+REMOTE_IDS="sourceforge:cdemu freshmeat:cdemu"
+
+src_prepare() {
+    default
+
+    if ${autogen} ; then
+        ./autogen.sh || die "autogen.sh failed"
+    fi
+}
+
