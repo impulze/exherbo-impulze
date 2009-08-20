@@ -1,3 +1,6 @@
+# Copyright 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
 export_exlib_phases src_install pkg_postinst
 require cdemu-common [ name=vhba-module ]
 

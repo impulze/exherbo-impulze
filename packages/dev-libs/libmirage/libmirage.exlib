@@ -1,0 +1,47 @@
+# Copyright 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require cdemu-common [ name=libmirage autogen=true ]
+
+SUMMARY="A CD-ROM image access library."
+DESCRIPTION="
+    CD-ROM image access library which aims to provide uniform access to the data stored in various image formats.
+    * Disc layout representation via GObject-based objects representing disc, session, track, language, index, etc.
+    * Support for both CD-ROM and DVD-ROM images
+    * CD-TEXT, ISRC, MCN and DVD-ROM disc structures support
+    * Capable of generating information not provided by image file; for instance, if image provides only user data, sync pattern, header, ECC/EDC codes and subchannel are generated on fly when they are attempted to be accessed.
+    * Currently supported image formats:
+          o B6T: BlindWrite 5/6 file format
+          o C2D: WinOnCD file format
+          o CCD: CloneCD image format
+          o CDI: DiscJuggler file format
+          o CIF: Easy CD Creator format
+          o CUE: CDRwin CUE/BIN image format
+          o DAA: PowerISO direct access archives (unencrypted)
+          o ISO: Classic ISO9660 image format
+          o MDS: Alcohol 120% image format
+          o NRG: Nero Burning ROM image format
+          o TOC: Cdrdao's TOC/BIN image format
+    * Plug-in based system that allows simple addition of new image format parsers or data-file access fragments.
+    * Debugging; verbosity of debug traces can be adjusted on fly using special debug context objects. Therefore, amount of traces can be adjusted without the need to restart the application.
+    * Various utility functions for converting address from/to LBA and MSF, interleaving and deinterleaving subchannel data, ECC/EDC generation, etc.
+"
+
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/reference/index.html [[ description = [ API reference ] ]]"
+
+MYOPTIONS="doc [[ description = [ API reference ] ]]"
+
+SLOT="0"
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+        doc? ( dev-doc/gtk-doc )
+    build+run:
+        dev-libs/glib[>=2.6]
+        media-libs/libsndfile[>=1.0.0]
+        sys-libs/zlib
+"
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES+=( 'doc gtk-doc' )
+
