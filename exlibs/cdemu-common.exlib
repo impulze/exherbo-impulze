@@ -34,7 +34,7 @@ REMOTE_IDS="sourceforge:cdemu freshmeat:cdemu"
 src_prepare() {
     default
 
-    if ${autogen} ; then
+    if [[ "${PV}" == scm && ${autogen} ]] ; then
         ./autogen.sh || die "autogen.sh failed"
     fi
 }
