@@ -24,3 +24,10 @@ REMOTE_IDS="freshmeat:${PN} sourceforge:${PN}"
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/README"
 
+src_install() {
+    default
+
+    newinitd "${FILES}/metalog.initd" metalog
+    newconfd "${FILES}/metalog.confd" metalog
+}
+
