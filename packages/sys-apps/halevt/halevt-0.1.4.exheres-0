@@ -52,7 +52,7 @@ start() {
 }
 
 stop() {
-    ebegin "Stopping Automounter"
+    ebegin "Stopping halevt"
     start-stop-daemon --stop --pidfile /var/run/halevt/halevt.pid
     eend $?
 }
