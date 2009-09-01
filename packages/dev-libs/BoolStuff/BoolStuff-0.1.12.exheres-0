@@ -1,0 +1,21 @@
+# Copyright 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License, v2 or later
+
+SUMMARY="A C++ library that supports a few operations on boolean expression binary trees."
+HOMEPAGE="http://sarrazip.com/dev/boolstuff.html"
+DOWNLOADS="http://sarrazip.com/dev/boolstuff-${PV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+WORK="${WORKBASE}/boolstuff-${PV}"
+
+DEPENDENCIES="
+    build:
+        dev-lang/perl
+"
+
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PN}"-0.1.12-missing_EOF.patch )
+
