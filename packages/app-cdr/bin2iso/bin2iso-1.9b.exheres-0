@@ -19,9 +19,11 @@ MYOPTIONS=""
 
 DEPENDENCIES=""
 
-SKIP_FUNCTIONS="unpack"
-
 WORK="${WORKBASE}"
+
+src_unpack() {
+    :
+}
 
 src_compile() {
     $(tc-getCC) ${CFLAGS} ${LDFLAGS} -o "${SRC}.out" "${FETCHEDDIR}/${SRC}" \

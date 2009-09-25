@@ -1,7 +1,7 @@
 # Copyright 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-export_exlib_phases src_install pkg_postinst
+export_exlib_phases src_compile src_install pkg_postinst
 require cdemu-common [ name=vhba-module ]
 
 SUMMARY="Kernel module for CD-ROM device emulation."
@@ -14,7 +14,9 @@ DEPENDENCIES="
         group/cdemu
 "
 
-SKIP_FUNCTIONS="compile"
+vhba-module_src_compile() {
+    :
+}
 
 vhba-module_src_install() {
     dodir /usr/src
