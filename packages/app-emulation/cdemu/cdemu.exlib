@@ -10,5 +10,6 @@ DEPENDENCIES="
         app-emulation/cdemud
         dev-lang/python
         dev-libs/glib
+        dev-python/dbus-python
 "
 
