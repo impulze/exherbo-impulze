@@ -1,19 +1,16 @@
 myexparam name=
 myexparam -b autogen=false
 
-exparam -v name name
-exparam -v autogen autogen
-
 WORK="${WORKBASE}/${name}-${PV}"
 
 if [[ "${PV}" == scm ]] ; then
-    SCM_SUBPATH="${name}"
-    SCM_CHECKOUT_TO="${name}"
+    SCM_SUBPATH="$(exparam name)"
+    SCM_CHECKOUT_TO="${SCM_SUBPATH}"
     SCM_UNPACK_TO="${WORK}"
     SCM_REPOSITORY="https://cdemu.svn.sourceforge.net/svnroot/cdemu/"
     require scm-svn
 
-    ${autogen} && require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
+    $(exparam autogen) && require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
 else
     DOWNLOADS="mirror://sourceforge/cdemu/$(exparam name)-${PV}.tar.bz2"
 fi
@@ -32,10 +29,14 @@ LICENCES="GPL-2"
 REMOTE_IDS="sourceforge:cdemu freshmeat:cdemu"
 
 src_prepare() {
+    exparam -v WANT_AUTOGEN autogen
+
     default
 
-    if [[ "${PV}" == scm && ${autogen} ]] ; then
-        ./autogen.sh || die "autogen.sh failed"
+    if [[ "${PV}" == scm ]] ; then
+        if ${WANT_AUTOGEN} ; then
+            ./autogen.sh || die "autogen.sh failed"
+        fi
     fi
 }
 
