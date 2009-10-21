@@ -1,7 +1,7 @@
 # Copyright 2008 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-require djb eutils
+require djb
 
 SUMMARY="Collection of DNS tools."
 DESCRIPTION="
