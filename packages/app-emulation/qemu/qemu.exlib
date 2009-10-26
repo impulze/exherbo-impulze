@@ -72,7 +72,6 @@ qemu_src_configure ()
         --cc="$(tc-getCC)" \
         --extra-cflags="$CFLAGS" \
         --extra-ldflags="$LDFLAGS" \
-        --disable-kqemu \
         --disable-strip \
         --audio-drv-list="$(echo ${audio_drv[@]} | tr ' ' ',')" \
         ${myconf[@]} \
