@@ -4,7 +4,7 @@ SUMMARY="A small SSH 2 server and client."
 HOMEPAGE="http://matt.ucc.asn.au/dropbear/dropbear.html"
 DOWNLOADS="http://matt.ucc.asn.au/dropbear/${PNV}.tar.bz2"
 
-LICENCES=""
+LICENCES="MIT"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS="multi pam scp static
