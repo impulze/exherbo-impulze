@@ -1,0 +1,75 @@
+
+
+SUMMARY="A small SSH 2 server and client."
+HOMEPAGE="http://matt.ucc.asn.au/dropbear/dropbear.html"
+DOWNLOADS="http://matt.ucc.asn.au/dropbear/${PNV}.tar.bz2"
+
+LICENCES=""
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS="multi pam scp static
+multi [[ description = [ Use one binary for all programs. ] ]]
+pam [[ description = [ Enable authentication via PAM. ] ]]
+scp [[ description = [ Build the dropbear secure copy binary. ] ]]
+"
+
+DEPENDENCIES="
+    build+run:
+        pam? ( sys-libs/pam )
+        scp? ( !net-misc/openssh ) [[ note = [ scp is also provided by OpenSSH ] ]]
+"
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( pam )
+DEFAULT_SRC_INSTALL_EXTRA_DOCS=( MULTI )
+
+src_prepare() {
+    default
+
+    option pam && edo sed -i \
+        -e "s:^/\*#define ENABLE_SVR_PAM_AUTH\*/:#define ENABLE_SVR_PAM_AUTH:" \
+        -e "s:^#define ENABLE_SVR_PASSWORD_AUTH::" \
+        options.h
+}
+
+dbmake() {
+    local makeopts programs
+
+    option static && makeopts+=" STATIC=1"
+    option multi && makeopts+=" MULTI=1"
+
+    option scp && programs+=" scp"
+    emake \
+        PROGRAMS="dropbear dbclient dropbearkey dropbearconvert ${programs}" \
+        ${makeopts} \
+        "${@}"
+}
+
+src_compile() {
+    dbmake
+}
+
+src_install() {
+    local binprogs
+
+    dbmake DESTDIR="${IMAGE}" install
+
+    emagicdocs
+
+    newinitd "${FILES}"/dropbear.init dropbear
+    newconfd "${FILES}"/dropbear.conf dropbear
+
+    if option multi ; then
+        binprogs="dbclient dropbearkey dropbearconvert"
+        option scp && binprogs+=" scp"
+
+        for prog in ${binprogs} ; do
+            edo ln -s dropbearmulti "${IMAGE}"/usr/bin/"${prog}"
+        done
+
+        dodir /usr/sbin
+        edo ln -s ../bin/dropbearmulti "${IMAGE}"/usr/sbin/dropbear
+    fi
+
+    doman dropbear{,key}.8
+}
+
