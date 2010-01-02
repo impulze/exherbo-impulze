@@ -1,0 +1,44 @@
+# Copyright 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require distutils
+
+SUMMARY="A debugger using python."
+HOMEPAGE="http://bitbucket.org/haypo/python-ptrace/"
+DOWNLOADS="${HOMEPAGE}/get/${PNV}.tar.bz2"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+
+REMOTE_IDS="freshmeat:python-ptrace pypi:python-ptrace"
+
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/wiki/Home [[ description = [ wiki ] ]]"
+
+WORK="${WORKBASE}/python-ptrace"
+
+do_phase() {
+    edo ln -sf setup.py{.orig,}
+    "$@"
+    edo ln -sf setup.py{.cptrace,}
+    "$@"
+}
+
+src_prepare() {
+    edo mv setup.py{,.orig}
+    edo mv setup_cptrace.py setup.py.cptrace
+
+    do_phase distutils_src_prepare
+}
+
+src_compile() {
+    do_phase distutils_src_compile
+}
+
+src_install() {
+    do_phase distutils_src_install
+
+    insinto /usr/share/pyinotify/examples
+    doins -r examples/*
+}
+
