@@ -1,0 +1,31 @@
+# Copyright 2009 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+require distutils
+
+SUMMARY="A pure Python module used for monitoring filesystems events."
+HOMEPAGE="http://trac.dbzteam.org/pyinotify"
+DOWNLOADS="http://seb.dbzteam.org/pub/pyinotify/releases/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+
+REMOTE_IDS="freshmeat:pyinotify pypi:pyinotify"
+
+UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/wiki/LastDevelopments"
+UPSTREAM_DOCUMENTATION="
+    ${HOMEPAGE}/pyinotify-api          [[ description = [ API documentation ] ]]
+    ${HOMEPAGE}/wiki/DocumentationPage [[ description = [ Additional API documentation ] ]]
+"
+
+WORK="${WORKBASE}/pyinotify"
+
+src_install() {
+    distutils_src_install
+    insinto /usr/share/doc/${PNVR}/html
+    doins -r docstrings/*
+    insinto /usr/share/pyinotify/examples
+    doins -r examples/*
+}
+
