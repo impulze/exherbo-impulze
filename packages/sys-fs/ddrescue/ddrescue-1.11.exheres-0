@@ -1,5 +1,5 @@
 
-require gnu [ suffix=gz ] toolchain-funcs
+require gnu [ suffix=gz ]
 
 SUMMARY="Data recovery tool trying to rescue as much as possible."
 
@@ -11,8 +11,8 @@ MYOPTIONS=""
 DEPENDENCIES=""
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    CC=$(tc-getCC)
-    CXX=$(tc-getCXX)
+    CC="${CC}"
+    CXX="${CXX}"
     CPPFLAGS=${CPPFLAGS}
     CFLAGS=${CFLAGS}
     CXXFLAGS=${CXXFLAGS}

@@ -1,8 +1,6 @@
 # Copyright 2008 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-require toolchain-funcs
-
 SUMMARY="BIN -> ISO/WAV Converter"
 DESCRIPTION="
     Convert .bin files into .iso files with a .cue file or try to create .cue
@@ -26,7 +24,7 @@ src_unpack() {
 }
 
 src_compile() {
-    $(tc-getCC) ${CFLAGS} ${LDFLAGS} -o "${SRC}.out" "${FETCHEDDIR}/${SRC}" \
+    "${CC}" ${CFLAGS} ${LDFLAGS} -o "${SRC}.out" "${FETCHEDDIR}/${SRC}" \
         || die "compilation failed"
 }
 

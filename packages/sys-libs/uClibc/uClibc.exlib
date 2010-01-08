@@ -1,8 +1,6 @@
 # Copyright 2008 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-require toolchain-funcs
-
 SUMMARY="A C library for developing embedded Linux systems."
 DESCRIPTION="A small C library that runs on standard Linux and MMU-less (also
     known as µClinux) systems with support for alpha, amd64, ARM, Blackfin,
@@ -25,10 +23,10 @@ src_compile() {
     make defconfig
 
     make \
-        CC=$(tc-getCC) \
-        AR=$(tc-getAR) \
-        LD=$(tc-getLD) \
-        NM=$(tc-getNM) \
-        HOSTCC=$(tc-getBUILD_CC)
+        CC="${CC}" \
+        AR="${AR}" \
+        LD="${LD}" \
+        NM="${NM}" \
+        HOSTCC="${BUILD_CC}"
 }
 

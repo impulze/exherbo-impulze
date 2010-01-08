@@ -1,8 +1,6 @@
 # Copyright 2008, 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-require toolchain-funcs
-
 export_exlib_phases src_prepare src_configure
 
 SUMMARY="A generic and open source machine emulator and virtualizer."
@@ -68,8 +66,8 @@ qemu_src_configure ()
 
     ./configure \
         --prefix=/usr \
-        --host-cc="$(tc-getBUILD_CC)" \
-        --cc="$(tc-getCC)" \
+        --host-cc="${BUILD_CC}" \
+        --cc="${CC}" \
         --extra-cflags="$CFLAGS" \
         --extra-ldflags="$LDFLAGS" \
         --disable-strip \
