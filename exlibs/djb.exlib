@@ -1,8 +1,6 @@
 # Copyright 2008 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-require toolchain-funcs
-
 export_exlib_phases src_prepare src_install
 
 HOMEPAGE_BASE="http://cr.yp.to"
@@ -22,17 +20,17 @@ djb_src_prepare() {
 
     sed \
         -e "/^gcc/s:.*:& ${CPPFLAGS} ${CFLAGS}:" \
-        -e "/^gcc/s:gcc:$(tc-getCC):" \
+        -e "/^gcc/s:gcc:${CC}:" \
         -i "${basedir}/conf-cc" || die "sed ${basedir}/conf-cc failed"
 
     sed \
         -e "/^gcc/s:.*:& ${LDFLAGS}:" \
-        -e "/^gcc/s:gcc:$(tc-getCC):" \
+        -e "/^gcc/s:gcc:${LD}:" \
         -i "${basedir}/conf-ld" || die "sed ${basedir}/conf-ld failed"
 
     sed \
-        -e "/echo 'ar cr/s:ar:$(tc-getAR):" \
-        -e "/*) echo 'ranlib \"\\$/s:ranlib:$(tc-getRANLIB):" \
+        -e "/echo 'ar cr/s:ar:${AR}:" \
+        -e "/*) echo 'ranlib \"\\$/s:ranlib:${RANLIB}:" \
         -i "${ranlib_file}" || die "sed ${ranlib_file} failed"
 
     if [ -f "${basedir}/auto-str.c" ] ; then
