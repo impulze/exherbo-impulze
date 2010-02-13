@@ -24,6 +24,7 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES+=( sdl )
+DEFAULT_SRC_TEST_PARAMS+=( -j1 )
 
 # FIXME:
 # xmlto can re-generate man-pages appearently but seems to be unwanted by
