@@ -1,7 +1,7 @@
 myexparam name=
 myexparam -b autogen=false
 
-WORK="${WORKBASE}/${name}-${PV}"
+WORK="${WORKBASE}/$(exparam name)-${PV}"
 
 if [[ "${PV}" == scm ]] ; then
     SCM_SUBPATH="$(exparam name)"
