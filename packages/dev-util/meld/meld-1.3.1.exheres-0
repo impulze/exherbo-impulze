@@ -1,20 +1,19 @@
 # Copyright 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-require multilib
+require multilib sourceforge
 
 SUMMARY="A visual diff and merge tool."
 DESCRIPTION="Rich featured diff and merge tool that integrates with most
 version control systems. It's also possible to do 3-way diffs."
-HOMEPAGE="http://meld.sourceforge.net/"
-DOWNLOADS="mirror://gnome/sources/meld/$(ever range 1-2)/meld-${PV}.tar.bz2"
+DOWNLOADS="mirror://gnome/sources/${PN}/$(ever range 1-2)/${PNV}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS=""
 
-REMOTE_IDS="freshmeat:Meld sourceforge:Meld"
+REMOTE_IDS+=" freshmeat:Meld"
 
 DEPENDENCIES="
     build:

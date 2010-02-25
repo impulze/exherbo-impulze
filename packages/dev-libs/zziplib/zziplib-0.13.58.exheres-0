@@ -2,12 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
+require sourceforge
 
 SUMMARY="A library to read zip files."
 DESCRIPTION="The implementation is based only on the (free) subset of
 compression with the zlib algorithm."
-HOMEPAGE="http://$PN.sourceforge.net"
-DOWNLOADS="mirror://sourceforge/$PN/$PNV.tar.bz2"
 
 LICENCES="|| ( LGPL-2 MPL-1.1 )"
 SLOT="0"
@@ -32,3 +31,4 @@ DEFAULT_SRC_TEST_PARAMS+=( -j1 )
 DEFAULT_SRC_PREPARE_PATCHES="${FILES}/${PN}-0.13.54-no_xmlto.patch"
 
 AT_M4DIR="m4"
+
