@@ -1,11 +1,11 @@
 # Copyright 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
+require sourceforge [ suffix=tar.gz ]
+
 SUMMARY="Dynamic Multicast Routing Daemon"
 DESCRIPTION="A simple dynamic Multicast Routing Daemon using only IGMP signalling.
 It's intended for simple forwarding of Multicast traffic between networks."
-HOMEPAGE="http://sourceforge.net/projects/igmpproxy/"
-DOWNLOADS="mirror://sourceforge/igmpproxy/${PNV}.tar.gz"
 
 LICENCES="GPL-2"
 SLOT="0"

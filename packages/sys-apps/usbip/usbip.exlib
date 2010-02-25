@@ -2,11 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
+require sourceforge [ suffix=tar.gz ]
 
 SUMMARY="Share USB devices over IP"
 DESCRIPTION="Userspace tools for the new USB over IP kernel feature"
-HOMEPAGE="http://${PN}.sourceforge.net/"
-DOWNLOADS="mirror://sourceforge/${PN}/${PNV}.tar.gz"
 
 LICENCES="GPL-2"
 MYOPTIONS="tcpd"
@@ -20,7 +19,7 @@ DEPENDENCIES="
         sys-apps/usbutils-data
 "
 
-REMOTE_IDS="freshmeat:usbip"
+REMOTE_IDS+=" freshmeat:usbip"
 
 UPSTREAM_CHANGELOG="http://sourceforge.net/project/shownotes.php?group_id=122798&release_id=595689"
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}#documentation"

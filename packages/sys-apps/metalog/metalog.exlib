@@ -1,6 +1,8 @@
 # Copyright 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
+require sourceforge [ suffix=tar.lzma ]
+
 SUMMARY="Feature-rich syslog daemon."
 DESCRIPTION="
 A modern replacement for syslogd and klogd. The logged messages
@@ -9,8 +11,6 @@ Perl-compatible regular expressions. Log files can be automatically rotated
 when they exceed a certain size or age. External shell scripts (e.g., mail)
 can be launched when specific patterns are found.
 "
-HOMEPAGE="http://metalog.sourceforge.net/"
-DOWNLOADS="mirror://sourceforge/${PN}/${PNV}.tar.lzma"
 
 LICENCES="GPL-2"
 MYOPTIONS=""
@@ -20,7 +20,7 @@ DEPENDENCIES="
         dev-libs/pcre
 "
 
-REMOTE_IDS="freshmeat:${PN} sourceforge:${PN}"
+REMOTE_IDS+=" freshmeat:${PN}"
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/README"
 
