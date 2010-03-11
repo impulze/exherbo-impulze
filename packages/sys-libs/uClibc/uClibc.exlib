@@ -20,9 +20,9 @@ WORK="${WORKBASE}/${PNV/_/-}"
 DEFAULT_SRC_INSTALL_PARAMS=( PREFIX="${IMAGE}/usr" )
 
 src_compile() {
-    make defconfig
+    emake defconfig
 
-    make \
+    emake \
         CC="${CC}" \
         AR="${AR}" \
         LD="${LD}" \
