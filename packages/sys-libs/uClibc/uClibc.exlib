@@ -11,7 +11,7 @@ DESCRIPTION="A small C library that runs on standard Linux and MMU-less (also
 HOMEPAGE="http://www.${PN}.org"
 DOWNLOADS="${HOMEPAGE}/downloads/${MYPNV}.tar.bz2"
 
-LICENCES=""
+LICENCES="LGPL-2.1"
 SLOT="0"
 MYOPTIONS=""
 
