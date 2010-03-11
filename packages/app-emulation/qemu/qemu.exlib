@@ -35,6 +35,14 @@ DEPENDENCIES="
         sasl? ( net-libs/cyrus-sasl )
         sdl? ( media-libs/SDL )
         vde? ( net/vde )
+        !app-virtualization/kvm [[
+            description = [ It doesn't make sense to install both anymore. ]
+            resolution = [ manual ]
+        ]]
+        !app-virtualization/qemu-kvm [[
+            description = [ It doesn't make sense to install both anymore. ]
+            resolution = [ manual ]
+        ]]
 "
 
 REMOTE_IDS="freshmeat:qemu"
