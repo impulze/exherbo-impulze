@@ -20,7 +20,7 @@ vhba-module_src_compile() {
 
 vhba-module_src_install() {
     dodir /usr/src
-    cp -pPR "${WORK}" "${IMAGE}/usr/src/${PNV}"
+    edo cp -pPR "${WORK}" "${IMAGE}/usr/src/${PNV}"
 
     insinto /etc/udev/rules.d
     hereins 90-vhba.rules <<EOF

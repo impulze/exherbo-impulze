@@ -31,16 +31,15 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS+=( 'tcpd tcp-wrappers' )
 WORK="${WORK}/src"
 
 src_prepare() {
-    sed \
+    edo sed \
         -e "/^AM_CFLAGS = /s:= := -DUSBIDS_FILE='\"@USBIDS_DIR@/usb.ids\"' :" \
-        -i cmd/Makefile.am \
-        || die "sed cmd/Makefile.am failed"
+        -i cmd/Makefile.am
     autotools_src_prepare
 }
 
 src_install() {
     default
 
-    rmdir "${IMAGE}/usr/share/usbip"
+    edo rmdir "${IMAGE}/usr/share/usbip"
 }
 

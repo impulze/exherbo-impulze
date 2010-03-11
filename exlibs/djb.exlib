@@ -18,35 +18,35 @@ djb_src_prepare() {
     local basedir=$(dirname $(find -type f -name conf-cc))
     local ranlib_file=$(grep -r ranlib . | sed 's/:.*//')
 
-    sed \
+    edo sed \
         -e "/^gcc/s:.*:& ${CPPFLAGS} ${CFLAGS}:" \
         -e "/^gcc/s:gcc:${CC}:" \
-        -i "${basedir}/conf-cc" || die "sed ${basedir}/conf-cc failed"
+        -i "${basedir}/conf-cc"
 
-    sed \
+    edo sed \
         -e "/^gcc/s:.*:& ${LDFLAGS}:" \
         -e "/^gcc/s:gcc:${LD}:" \
-        -i "${basedir}/conf-ld" || die "sed ${basedir}/conf-ld failed"
+        -i "${basedir}/conf-ld"
 
-    sed \
+    edo sed \
         -e "/echo 'ar cr/s:ar:${AR}:" \
         -e "/*) echo 'ranlib \"\\$/s:ranlib:${RANLIB}:" \
-        -i "${ranlib_file}" || die "sed ${ranlib_file} failed"
+        -i "${ranlib_file}"
 
     if [ -f "${basedir}/auto-str.c" ] ; then
-        cat >> "${basedir}/auto-str" <<EOF
+        edo cat >> "${basedir}/auto-str" <<EOF
 #!/bin/bash
 printf "const char \${1}[] = \"%s\";\n" \$(printf "\${2}" | od -A n -t o1 | tr ' ' '\\')
 EOF
-        chmod u+x "${basedir}/auto-str" || die "chmod auto-str failed"
+        edo chmod u+x "${basedir}/auto-str"
     fi
 
     if [ -f "${basedir}/hasshsgr.h1" ] ; then
-        ln -s hasshsgr.h1 "${basedir}"/hasshsgr.h
+        edo ln -s hasshsgr.h1 "${basedir}"/hasshsgr.h
     fi
 
     if [ -f "${basedir}/uint64.h1" ] ; then
-        cat >> "${basedir}/uint64.h" <<EOF
+        edo cat >> "${basedir}/uint64.h" <<EOF
 #ifndef UINT64_H
 #define UINT64_H
 
@@ -60,8 +60,7 @@ EOF
     fi
 
     if [ -f "${basedir}/conf-home" ] ; then
-        echo /usr > "${basedir}/conf-home" \
-            || die "creating conf-home failed"
+        edo echo /usr > "${basedir}/conf-home"
     fi
  
     default

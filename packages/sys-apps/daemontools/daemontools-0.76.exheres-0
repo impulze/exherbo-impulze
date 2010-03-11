@@ -32,8 +32,8 @@ DEFAULT_SRC_PREPARE_PATCHES+=(
 DEFAULT_SRC_INSTALL_EXTRA_SUBDIRS+=( src )
 
 src_compile() {
-    echo >src/rts.tests || "overwriting tests failed"
-    package/compile || die "compilation failed"
+    edo echo >src/rts.tests
+    edo package/compile
 }
 
 src_install() {

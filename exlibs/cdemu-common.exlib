@@ -35,7 +35,7 @@ src_prepare() {
 
     if [[ "${PV}" == scm ]] ; then
         if ${WANT_AUTOGEN} ; then
-            ./autogen.sh || die "autogen.sh failed"
+            edo ./autogen.sh
         fi
     fi
 }

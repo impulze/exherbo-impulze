@@ -30,15 +30,15 @@ UPSTREAM_CHANGELOG="http://tron.homeunix.org/ja2"
 
 ja2_config() {
     until [ $# -eq 0 ] ; do
-        echo "$1" >> config.default
+        edo echo "$1" >> config.default
         shift
     done
 }
 
 src_prepare() {
-    sed -e "s:TILECACHE:[Tt][Ii][Ll][Ee][Cc][Aa][Cc][Hh][Ee]:g" \
+    edo sed -e "s:TILECACHE:[Tt][Ii][Ll][Ee][Cc][Aa][Cc][Hh][Ee]:g" \
         -e '/^INSTALL_PROGRAM ?= /s: -s::' \
-        -i Makefile || die "sed Makefile failed"
+        -i Makefile
     option debug && ja2_config _DEBUG=yes WITH_SOUND_DEBUG=yes
     option demo && ja2_config WITH_DEMO=yes
     option editor && ja2_config JA2EDITOR=yes

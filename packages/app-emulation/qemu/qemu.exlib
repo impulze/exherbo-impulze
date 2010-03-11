@@ -64,7 +64,7 @@ qemu_src_configure ()
     option curl || myconf+=( --disable-curl )
     [[ -n "${audio_drv[@]}" ]] && myconf+=( --enable-mixemu )
 
-    ./configure \
+    edo ./configure \
         --prefix=/usr \
         --host-cc="${BUILD_CC}" \
         --cc="${CC}" \
@@ -74,16 +74,14 @@ qemu_src_configure ()
         --audio-drv-list="$(echo ${audio_drv[@]} | tr ' ' ',')" \
         ${myconf[@]} \
         ${EXTRA_ECONF} \
-        $@ \
-        || die "configure failed"
+        $@
 }
 
 qemu_src_prepare ()
 {
-    sed \
+    edo sed \
         -e '/^CFLAGS=/s:-O2 -g::' \
         -e '/^LDFLAGS=/s:-g::' \
-        -i configure \
-        || die "sed configure failed";
+        -i configure
 }
 

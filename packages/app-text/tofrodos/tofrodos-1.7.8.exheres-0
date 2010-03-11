@@ -23,12 +23,12 @@ WORK="$WORKBASE/$PN/src"
 src_prepare() {
     default
 
-    sed \
+    edo sed \
         -e "/CC =/s:gcc:${CC}:" \
         -e "/LD =/s:gcc:${CC}:" \
         -e "/CFLAGS =/s:\$(CDEBUG):$CFLAGS:" \
         -e "/LDFLAGS =/s:\$(LDEBUG):$LDFLAGS:" \
-        -i Makefile || die "sed Makefile failed"
+        -i Makefile
 }
 
 src_install() {

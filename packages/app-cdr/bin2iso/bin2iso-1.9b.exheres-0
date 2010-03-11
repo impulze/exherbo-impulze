@@ -24,8 +24,7 @@ src_unpack() {
 }
 
 src_compile() {
-    "${CC}" ${CFLAGS} ${LDFLAGS} -o "${SRC}.out" "${FETCHEDDIR}/${SRC}" \
-        || die "compilation failed"
+    edo "${CC}" ${CFLAGS} ${LDFLAGS} -o "${SRC}.out" "${FETCHEDDIR}/${SRC}"
 }
 
 src_install() {

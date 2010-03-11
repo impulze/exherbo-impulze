@@ -21,11 +21,11 @@ DEFAULT_SRC_INSTALL_PARAMS+=( DIST_ROOT="$IMAGE" )
 
 src_prepare() {
     default
-    sed -e "/^PKG_DOC_DIR\t=/s:@pkg_name@:$PNV:" -i include/builddefs.in || die "sed failed"
+    edo sed -e "/^PKG_DOC_DIR\t=/s:@pkg_name@:$PNV:" -i include/builddefs.in
 }
 
 src_install() {
     default
-    rm "$IMAGE/usr/share/doc/$PNV/release.sh" || die "failed to remove release.sh"
+    edo rm "$IMAGE/usr/share/doc/$PNV/release.sh"
 }
 
