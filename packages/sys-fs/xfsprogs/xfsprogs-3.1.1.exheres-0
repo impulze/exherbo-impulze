@@ -4,7 +4,7 @@
 SUMMARY="XFS userspace tools"
 DESCRIPTION="Userspace utilities for the XFS filesystem including fsck and mkfs."
 HOMEPAGE="http://oss.sgi.com/projects/xfs/"
-DOWNLOADS="ftp://oss.sgi.com/projects/xfs/cmd_tars/$PNV.tar.gz"
+DOWNLOADS="ftp://oss.sgi.com/projects/xfs/cmd_tars/${PNV}.tar.gz"
 
 LICENCES="GPL LGPL-2.1"
 SLOT="0"
@@ -17,15 +17,15 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS+=( OPTIMIZER=' ' DEBUG=' ' --sbindir=/sbin )
-DEFAULT_SRC_INSTALL_PARAMS+=( DIST_ROOT="$IMAGE" )
+DEFAULT_SRC_INSTALL_PARAMS+=( DIST_ROOT="${IMAGE}" )
 
 src_prepare() {
     default
-    edo sed -e "/^PKG_DOC_DIR\t=/s:@pkg_name@:$PNV:" -i include/builddefs.in
+    edo sed -e "/^PKG_DOC_DIR\t=/s:@pkg_name@:${PNV}:" -i include/builddefs.in
 }
 
 src_install() {
     default
-    edo rm "$IMAGE/usr/share/doc/$PNV/release.sh"
+    edo rm "${IMAGE}/usr/share/doc/${PNV}/release.sh"
 }
 

@@ -6,15 +6,15 @@ DESCRIPTION="
 A simple and small library (38K - 66K) POSIX and Windows 2000 or later compliant configuration
 file parser.
 "
-HOMEPAGE="http://www.hyperrealm.com/$PN"
-DOWNLOADS="$HOMEPAGE/$PNV.tar.gz"
+HOMEPAGE="http://www.hyperrealm.com/${PN}"
+DOWNLOADS="${HOMEPAGE}/${PNV}.tar.gz"
 
 LICENCES="LGPL-2.1"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS=""
 
-UPSTREAM_DOCUMENTATION="$HOMEPAGE/${PN}_manual.html [[ lang = en description = [ Manual ] ]]"
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/${PN}_manual.html [[ lang = en description = [ Manual ] ]]"
 
 DEPENDENCIES="
   build:

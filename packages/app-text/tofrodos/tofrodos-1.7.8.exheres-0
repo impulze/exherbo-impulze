@@ -8,8 +8,8 @@ DESCRIPTION="A text file conversion utility that converts ASCII files between
 MSDOS (or Windows) format, which traditionally have CR/LF (carriage
 return/line feed) pairs as their new line delimiters, and the Unix format,
 which usually have LFs (line feeds) to terminate each line."
-HOMEPAGE="http://www.thefreecountry.com/$PN/index.shtml"
-DOWNLOADS="http://$PN.sourceforge.net/download/$PNV.tar.gz"
+HOMEPAGE="http://www.thefreecountry.com/${PN}/index.shtml"
+DOWNLOADS="http://${PN}.sourceforge.net/download/${PNV}.tar.gz"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -18,7 +18,7 @@ MYOPTIONS=""
 
 DEPENDENCIES=""
 
-WORK="$WORKBASE/$PN/src"
+WORK="${WORKBASE}/${PN}/src"
 
 src_prepare() {
     default
@@ -26,8 +26,8 @@ src_prepare() {
     edo sed \
         -e "/CC =/s:gcc:${CC}:" \
         -e "/LD =/s:gcc:${CC}:" \
-        -e "/CFLAGS =/s:\$(CDEBUG):$CFLAGS:" \
-        -e "/LDFLAGS =/s:\$(LDEBUG):$LDFLAGS:" \
+        -e "/CFLAGS =/s:\$(CDEBUG):${CFLAGS}:" \
+        -e "/LDFLAGS =/s:\$(LDEBUG):${LDFLAGS}:" \
         -i Makefile
 }
 
@@ -36,8 +36,8 @@ src_install() {
     doman fromdos.1
 
     for link in todos dos2unix unix2dos ; do
-        dosym fromdos /usr/bin/$link
-        dosym fromdos.1 /usr/share/man/man1/$link.1
+        dosym fromdos /usr/bin/${link}
+        dosym fromdos.1 /usr/share/man/man1/${link}.1
     done
 }
 

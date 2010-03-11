@@ -9,7 +9,7 @@ DESCRIPTION="
     machine on a different machine. It claims to achieve good performances
     because of dynamic translation.'
 "
-HOMEPAGE="http://bellard.org/$PN"
+HOMEPAGE="http://bellard.org/${PN}"
 
 LICENCES="GPL-2"
 MYOPTIONS="
@@ -39,9 +39,9 @@ DEPENDENCIES="
 
 REMOTE_IDS="freshmeat:qemu"
 
-UPSTREAM_CHANGELOG="$HOMEPAGE/changelog.html"
-UPSTREAM_DOCUMENTATION="$HOMEPAGE/user-doc.html"
-UPSTREAM_RELEASE_NOTES="$HOMEPAGE/index.html"
+UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/user-doc.html"
+UPSTREAM_RELEASE_NOTES="${HOMEPAGE}/index.html"
 
 # TODO: configure creates automagic dependency and static linkage with SDL
 
@@ -68,11 +68,11 @@ qemu_src_configure ()
         --prefix=/usr \
         --host-cc="${BUILD_CC}" \
         --cc="${CC}" \
-        --extra-cflags="$CFLAGS" \
-        --extra-ldflags="$LDFLAGS" \
+        --extra-cflags="${CFLAGS}" \
+        --extra-ldflags="${LDFLAGS}" \
         --disable-strip \
         --audio-drv-list="$(echo ${audio_drv[@]} | tr ' ' ',')" \
-        ${myconf[@]} \
+        "${myconf[@]}" \
         ${EXTRA_ECONF} \
         $@
 }
