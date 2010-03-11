@@ -21,9 +21,10 @@ WORK="${WORKBASE}/${MYPNV}"
 
 DEFAULT_SRC_COMPILE_PARAMS=(
     CC="${CC}" AR="${AR}" LD="${LD}" NM="${NM}" HOSTCC="${BUILD_CC}"
+    STRIPTOOL='true'
 )
 
-DEFAULT_SRC_INSTALL_PARAMS=( PREFIX="${IMAGE}/usr" )
+DEFAULT_SRC_INSTALL_PARAMS=( PREFIX="${IMAGE}/usr" STRIPTOOL='true' )
 
 src_compile() {
     emake defconfig
