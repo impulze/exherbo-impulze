@@ -24,7 +24,7 @@ DEFAULT_SRC_COMPILE_PARAMS=(
     STRIPTOOL='true'
 )
 
-DEFAULT_SRC_INSTALL_PARAMS=( PREFIX="${IMAGE}/usr" STRIPTOOL='true' )
+DEFAULT_SRC_INSTALL_PARAMS=( PREFIX="${IMAGE}/" STRIPTOOL='true' )
 
 src_compile() {
     emake defconfig
