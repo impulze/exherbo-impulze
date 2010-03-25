@@ -1,8 +1,6 @@
 # Copyright 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-require multilib
-
 SUMMARY="Conversion between Unix and MSDOS text files."
 DESCRIPTION="A text file conversion utility that converts ASCII files between
 MSDOS (or Windows) format, which traditionally have CR/LF (carriage
