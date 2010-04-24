@@ -17,5 +17,3 @@ DEPENDENCIES="
         dev-lang/perl
 "
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PN}"-0.1.12-missing_EOF.patch )
-
