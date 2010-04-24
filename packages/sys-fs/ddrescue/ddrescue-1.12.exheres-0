@@ -3,7 +3,7 @@ require gnu [ suffix=gz ]
 
 SUMMARY="Data recovery tool trying to rescue as much as possible."
 
-LICENCES=""
+LICENCES="GPL-3"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
