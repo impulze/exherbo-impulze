@@ -26,7 +26,7 @@ MYOPTIONS=""
 
 DEPENDENCIES=""
 
-REMOTE_IDS="freshmeat:NASM - The Netwide Assembler"
+REMOTE_IDS="freshmeat:NASM - The Netwide Assembler sourceforge:nasm"
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/doc/"
 
