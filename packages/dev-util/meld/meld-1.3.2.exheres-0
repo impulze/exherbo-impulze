@@ -22,9 +22,11 @@ DEPENDENCIES="
         dev-lang/python
     run:
         gnome-bindings/gnome-python[gnome][gnomevfs]
-        gnome-bindings/pygtk"
-
-# gnome-python-extras should provide pygtksourceview (optional support)
+        gnome-bindings/pygtk
+    suggestion:
+        gnome-bindings/pygtksourceview
+          [[ description = [ syntax highlighting, line numbers, etc. ] ]]
+"
 # scrollkeeper can probably build the documentation
 # LANGUAGES="" prevents building help/ subdir, which seems to need that
 
