@@ -5,3 +5,8 @@ require cdemud
 
 PLATFORMS="~amd64 ~x86"
 
+DEPENDENCIES+="
+    build+run:
+        dev-libs/libdaemon[>=0.10]
+"
+

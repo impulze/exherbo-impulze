@@ -9,7 +9,6 @@ SLOT="0"
 
 DEPENDENCIES="
     build+run:
-        dev-libs/libdaemon[>=0.10]
         dev-libs/libmirage[>=${PV}]
         dev-libs/dbus-glib[>=0.66]
         dev-libs/glib[>=2.6]
