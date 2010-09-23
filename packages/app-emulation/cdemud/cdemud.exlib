@@ -32,13 +32,13 @@ depend() {
 }
 
 start() {
-    ebegin "Starting cdemu daemon"
+	ebegin "Starting cdemu daemon"
 	cdemud \${CDEMUD_OPTS} -d -p /var/run/cdemud.pid
-    eend \$?
+	eend \$?
 }
 
 stop() {
-    ebegin "Stopping cdemu daemon"
+	ebegin "Stopping cdemu daemon"
 	cdemud \${CDEMUD_OPTS} -k -p /var/run/cdemud.pid
 	eend \$?
 }
