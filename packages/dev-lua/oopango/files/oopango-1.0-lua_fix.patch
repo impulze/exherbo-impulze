@@ -1,0 +1,24 @@
+Upstream: Yes
+Reason: only debian uses lua5.1.pc
+Source: Daniel Mierswa <impulze@impulze.org>
+
+--- oopango-1.0/configure.ac.orig	2010-10-04 18:42:35.000000000 +0200
++++ oopango-1.0/configure.ac	2010-10-04 18:42:46.000000000 +0200
+@@ -6,7 +6,7 @@
+ AM_INIT_AUTOMAKE([-Wall -Werror foreign dist-bzip2])
+ 
+ AC_PROG_LN_S
+-PKG_CHECK_MODULES(DEPS, lua5.1 cairo oocairo >= 1.3 pangocairo)
++PKG_CHECK_MODULES(DEPS, lua cairo oocairo >= 1.3 pangocairo)
+ 
+ AC_MSG_CHECKING([lua library dir])
+ # First, we need to figure out the prefix
+@@ -14,7 +14,7 @@
+ if test "x${MY_PREFIX}" = "xNONE" ; then
+ 	MY_PREFIX=${ac_default_prefix}
+ fi
+-lualibdir=`$PKG_CONFIG lua5.1 --define-variable=prefix=${MY_PREFIX} --variable=INSTALL_CMOD`
++lualibdir=`$PKG_CONFIG lua --define-variable=prefix=${MY_PREFIX} --variable=INSTALL_CMOD`
+ AC_SUBST([lualibdir])
+ AC_MSG_RESULT([$lualibdir])
+ 
