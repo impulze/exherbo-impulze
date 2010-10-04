@@ -1,0 +1,27 @@
+# Copyright 2010 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Lua bindings for cairo"
+DESCRIPTION="
+Lua-OOCairo provides Lua with full access to the Cairo vector graphics API.
+It can be used for drawing onto bitmap images and saving the resulting files
+in PNG format, or for generating files in vector formats like SVG and PDF.
+It can also be used for drawing in a Gtk+ GUI application.
+"
+HOMEPAGE="http://oocairo.naquadah.org/"
+DOWNLOADS="${HOMEPAGE}/dist/${PNV}.tar.bz2"
+
+LICENCES="MIT GPL-2 as-is"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+    build+run:
+        dev-lang/lua
+        x11-libs/cairo
+"
+
+UPSTREAM_DOCUMENTATION="http://www.daizucms.org/lua/library/oocairo/doc/"
+
