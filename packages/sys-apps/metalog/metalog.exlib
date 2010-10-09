@@ -13,7 +13,7 @@ can be launched when specific patterns are found.
 "
 
 LICENCES="GPL-2"
-MYOPTIONS=""
+MYOPTIONS="baselayout"
 
 DEPENDENCIES="
     build+run:
@@ -27,7 +27,9 @@ UPSTREAM_DOCUMENTATION="${HOMEPAGE}/README"
 src_install() {
     default
 
-    newinitd "${FILES}/metalog.initd" metalog
-    newconfd "${FILES}/metalog.confd" metalog
+    if option baselayout ; then
+        newinitd "${FILES}/metalog.initd" metalog
+        newconfd "${FILES}/metalog.confd" metalog
+    fi
 }
 
