@@ -18,11 +18,13 @@ DEPENDENCIES="
     run:
         app-emulation/vhba-module
 "
+MYOPTIONS="baselayout"
 
 cdemud_src_install() {
     default
 
-    hereinitd cdemud <<EOF
+    if option baselayout ; then
+        hereinitd cdemud <<EOF
 #!/sbin/runscript
 
 depend() {
@@ -43,9 +45,10 @@ stop() {
 }
 EOF
 
-    hereconfd cdemud <<EOF
+        hereconfd cdemud <<EOF
 # options passed to the cdemud
 #CDEMUD_OPTS=--num-devices=10
 EOF
+    fi
 }
 
