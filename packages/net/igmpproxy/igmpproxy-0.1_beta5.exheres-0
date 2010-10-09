@@ -10,13 +10,15 @@ It's intended for simple forwarding of Multicast traffic between networks."
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~x86"
-MYOPTIONS=""
+MYOPTIONS="baselayout"
 
 DEPENDENCIES=""
 
 src_install() {
     default
-    newinitd "${FILES}/igmpproxy-init.d" igmpproxy
-    newconfd "${FILES}/igmpproxy-conf.d" igmpproxy
+    if option baselayout ; then
+        newinitd "${FILES}/igmpproxy-init.d" igmpproxy
+        newconfd "${FILES}/igmpproxy-conf.d" igmpproxy
+    fi
 }
 
