@@ -7,7 +7,7 @@ DOWNLOADS="http://matt.ucc.asn.au/dropbear/${PNV}.tar.bz2"
 LICENCES="MIT"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS="multi pam scp static
+MYOPTIONS="baselayout multi pam scp static
 multi [[ description = [ Use one binary for all programs. ] ]]
 pam [[ description = [ Enable authentication via PAM. ] ]]
 scp [[ description = [ Build the dropbear secure copy binary. ] ]]
@@ -55,8 +55,10 @@ src_install() {
 
     emagicdocs
 
-    newinitd "${FILES}"/dropbear.init dropbear
-    newconfd "${FILES}"/dropbear.conf dropbear
+    if option baselayout ; then
+        newinitd "${FILES}"/dropbear.init dropbear
+        newconfd "${FILES}"/dropbear.conf dropbear
+    fi
 
     if option multi ; then
         binprogs="dbclient dropbearkey dropbearconvert"
