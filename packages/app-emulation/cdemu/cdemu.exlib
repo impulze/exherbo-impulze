@@ -7,9 +7,10 @@ SLOT="0"
 
 DEPENDENCIES="
     build+run:
-        app-emulation/cdemud
         dev-lang/python
         dev-libs/glib
         dev-python/dbus-python
+    run:
+        app-emulation/cdemud
 "
 
