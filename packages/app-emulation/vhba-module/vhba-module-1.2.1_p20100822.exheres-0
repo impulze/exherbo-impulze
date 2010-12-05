@@ -3,5 +3,10 @@
 
 require vhba-module
 
+MYPKG="vhba-module-${PV/*_p/}"
+
+DOWNLOADS="mirror://sourceforge/cdemu/${MYPKG}.tar.gz"
 PLATFORMS="~amd64 ~x86"
+
+WORK="${WORKBASE}/${MYPKG}"
 

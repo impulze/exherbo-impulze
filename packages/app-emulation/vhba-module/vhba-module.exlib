@@ -24,7 +24,7 @@ vhba-module_src_install() {
 
     insinto /etc/udev/rules.d
     hereins 90-vhba.rules <<EOF
-KERNEL=="vhba_ctl", NAME="%k", MODE="0660", OWNER="root", GROUP="cdemu"
+KERNEL=="vhba_ctl", MODE="0660", OWNER="root", GROUP="cdemu"
 EOF
 }
 
