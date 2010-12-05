@@ -36,3 +36,8 @@ DEFAULT_SRC_INSTALL_PARAMS+=(
 
 WORK="${WORKBASE}/${MYPNV}"
 
+src_test() {
+    emake -C test golden
+    emake -C test test
+}
+
