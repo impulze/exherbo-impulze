@@ -1,4 +1,5 @@
 myexparam name=
+myexparam suffix=.tar.bz2
 myexparam -b autogen=false
 
 WORK="${WORKBASE}/$(exparam name)-${PV}"
@@ -12,7 +13,7 @@ if [[ "${PV}" == scm ]] ; then
 
     $(exparam autogen) && require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ]
 else
-    DOWNLOADS="mirror://sourceforge/cdemu/$(exparam name)-${PV}.tar.bz2"
+    DOWNLOADS="mirror://sourceforge/cdemu/$(exparam name)-${PV}$(exparam suffix)"
 fi
 
 HOMEPAGE="http://cdemu.sourceforge.net/"
