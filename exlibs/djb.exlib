@@ -62,7 +62,7 @@ EOF
     if [ -f "${basedir}/conf-home" ] ; then
         edo echo /usr > "${basedir}/conf-home"
     fi
- 
+
     default
 }
 
