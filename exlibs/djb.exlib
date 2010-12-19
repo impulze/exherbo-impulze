@@ -25,7 +25,7 @@ djb_src_prepare() {
 
     edo sed \
         -e "/^gcc/s:.*:& ${LDFLAGS}:" \
-        -e "/^gcc/s:gcc:${LD}:" \
+        -e "/^gcc/s:gcc:${CC}:" \
         -i "${basedir}/conf-ld"
 
     edo sed \
