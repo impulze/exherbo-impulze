@@ -1,0 +1,22 @@
+Upstream: Yes (several)
+Source: Daniel Mierswa <impulze@impulze.org>
+Reason: EOF definition is missing
+
+http://savannah.gnu.org/bugs/?26726
+http://savannah.gnu.org/bugs/?29815
+http://savannah.gnu.org/bugs/?30862
+http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=504868
+
+Seems like development is stuck/dead. :)
+
+diff -Naur ddd-3.3.12.orig/ddd/strclass.C ddd-3.3.12/ddd/strclass.C
+--- ddd-3.3.12.orig/ddd/strclass.C	2009-02-11 18:25:06.000000000 +0100
++++ ddd-3.3.12/ddd/strclass.C	2010-12-21 11:22:35.000000000 +0100
+@@ -39,6 +39,7 @@
+ #include <limits.h>
+ #include <new>
+ #include <stdlib.h>
++#include <cstdio>
+ 
+ void string::error(const char* msg) const
+ {

@@ -1,0 +1,43 @@
+# Copyright 2010 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Graphical front-end for command-line debuggers"
+HOMEPAGE="http://www.gnu.org/software/ddd"
+DOWNLOADS="mirror://gnu/ddd/${PNV}.tar.gz"
+
+LICENCES="GPL-3 LGPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="valgrind
+valgrind [[ description = [ provide a leak check for ddd in maintenance menu ] ]]
+"
+
+DEPENDENCIES="
+    build:
+        valgrind? ( dev-util/valgrind )
+    build+run:
+        sys-devel/gdb
+        x11-libs/libICE
+        x11-libs/libSM
+        x11-libs/libX11
+        x11-libs/libXaw
+        x11-libs/libXext
+        x11-libs/libXmu
+        x11-libs/libXpm
+        x11-libs/openmotif
+    suggestion:
+        sci-apps/gnuplot  [[ description = [ default used to plot ] ]]
+        x11-apps/xfontsel [[ description = [ default used to select fonts on startup ] ]]
+        x11-apps/xterm    [[ description = [ default used to show I/O of debugged process ] ]]
+"
+
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/ddd-3.3.12-missing_EOF.patch" )
+
+src_configure() {
+    local myeconf=()
+
+    option valgrind && myeconf+=( '--with-valgrind-includes=/usr/include' )
+
+    econf "${myeconf[@]}"
+}
+
