@@ -3,7 +3,7 @@
 
 require "${PN}"
 
-SCM_REPOSITORY="git://git.savannah.nongnu.org/qemu.git"
+SCM_REPOSITORY="git://git.qemu.org/qemu.git"
 SCM_EXTERNAL_REFS="roms/vgabios: roms/seabios:"
 require scm-git
 

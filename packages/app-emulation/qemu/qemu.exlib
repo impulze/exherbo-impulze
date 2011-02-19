@@ -9,7 +9,7 @@ DESCRIPTION="
     machine on a different machine. It claims to achieve good performances
     because of dynamic translation.'
 "
-HOMEPAGE="http://bellard.org/${PN}"
+HOMEPAGE="http://wiki.qemu.org/"
 
 LICENCES="GPL-2"
 MYOPTIONS="
