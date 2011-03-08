@@ -1,41 +1,45 @@
 # Copyright 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-require multilib sourceforge
+require multilib gnome.org
 
 SUMMARY="A visual diff and merge tool."
 DESCRIPTION="Rich featured diff and merge tool that integrates with most
 version control systems. It's also possible to do 3-way diffs."
-DOWNLOADS="mirror://gnome/sources/${PN}/$(ever range 1-2)/${PNV}.tar.bz2"
+HOMEPAGE="http://live.gnome.org/${PN^}"
 
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS=""
 
-REMOTE_IDS+=" freshmeat:Meld"
+# make check doesn't run tests but some upstream QA
+# make test needs X and fails because files are missing
+RESTRICT="test"
 
 DEPENDENCIES="
     build:
         sys-devel/gettext
     build+run:
-        dev-lang/python
+        dev-lang/python[>=2.5]
     run:
-        gnome-bindings/gnome-python[gnome][gnomevfs]
-        gnome-bindings/pygtk
+        gnome-bindings/pygobject:2[>=2.16.0]
+        gnome-bindings/pygtk[>=2.14]
     suggestion:
-        gnome-bindings/pygtksourceview
+        gnome-bindings/pygtksourceview:2[>=2.4]
           [[ description = [ syntax highlighting, line numbers, etc. ] ]]
 "
 # scrollkeeper can probably build the documentation
 # LANGUAGES="" prevents building help/ subdir, which seems to need that
 
-DEFAULT_SRC_COMPILE_PARAMS=( prefix=/usr libdir=/usr/$(get_libdir) docdir_='$(docdir)'/${PNV} LANGUAGES="" )
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/${PNV}-three-way-button-fix.patch )
+DEFAULT_SRC_COMPILE_PARAMS=( prefix=/usr libdir=/usr/$(get_libdir) docdir_='$(docdir)'/${PNVR} LANGUAGES="" )
 DEFAULT_SRC_INSTALL_PARAMS=( ${DEFAULT_SRC_COMPILE_PARAMS[@]} )
 
 src_install() {
     default
 
-    edo rmdir "${IMAGE}"/usr/share/gnome/{help/meld,help,}
+    edo rmdir "${IMAGE}"/usr/share/gnome/{help/meld,help,} \
+              "${IMAGE}"/usr/share/pixmaps
 }
 

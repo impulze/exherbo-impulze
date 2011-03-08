@@ -1,0 +1,28 @@
+From e0f1adacad183b8ba5dd2cecb4eb2027b3bd0df6 Mon Sep 17 00:00:00 2001
+From: Kai Willadsen <kai.willadsen@gmail.com>
+Date: Fri, 14 Jan 2011 18:44:33 +1000
+Subject: [PATCH] Fix three-way compare buttons closing New Diff dialog
+
+Upstream: yes, git e0f1adacad183b8ba5dd2cecb4eb2027b3bd0df6
+Reason: bug, hitting the toggle should not close the window
+
+---
+ data/ui/meldapp.ui |    2 --
+ 1 files changed, 0 insertions(+), 2 deletions(-)
+
+diff --git a/data/ui/meldapp.ui b/data/ui/meldapp.ui
+index 62f3c3e..fd552ec 100644
+--- a/data/ui/meldapp.ui
++++ b/data/ui/meldapp.ui
+@@ -455,8 +455,6 @@ Josef Vybíral</property>
+       </object>
+     </child>
+     <action-widgets>
+-      <action-widget response="0">three_way_compare0</action-widget>
+-      <action-widget response="0">three_way_compare1</action-widget>
+       <action-widget response="-6">button_cancel</action-widget>
+       <action-widget response="-5">button_ok</action-widget>
+     </action-widgets>
+-- 
+1.7.4.1
+
