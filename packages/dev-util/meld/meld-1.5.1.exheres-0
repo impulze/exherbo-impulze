@@ -32,7 +32,6 @@ DEPENDENCIES="
 # scrollkeeper can probably build the documentation
 # LANGUAGES="" prevents building help/ subdir, which seems to need that
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/${PNV}-three-way-button-fix.patch )
 DEFAULT_SRC_COMPILE_PARAMS=( prefix=/usr libdir=/usr/$(get_libdir) docdir_='$(docdir)'/${PNVR} LANGUAGES="" )
 DEFAULT_SRC_INSTALL_PARAMS=( ${DEFAULT_SRC_COMPILE_PARAMS[@]} )
 
