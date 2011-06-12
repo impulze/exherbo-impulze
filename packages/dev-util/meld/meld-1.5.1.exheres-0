@@ -1,7 +1,7 @@
 # Copyright 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-require multilib gnome.org
+require gnome.org
 
 SUMMARY="A visual diff and merge tool."
 DESCRIPTION="Rich featured diff and merge tool that integrates with most
@@ -32,7 +32,7 @@ DEPENDENCIES="
 # scrollkeeper can probably build the documentation
 # LANGUAGES="" prevents building help/ subdir, which seems to need that
 
-DEFAULT_SRC_COMPILE_PARAMS=( prefix=/usr libdir=/usr/$(get_libdir) docdir_='$(docdir)'/${PNVR} LANGUAGES="" )
+DEFAULT_SRC_COMPILE_PARAMS=( prefix=/usr libdir=/usr/${LIBDIR} docdir_='$(docdir)'/${PNVR} LANGUAGES="" )
 DEFAULT_SRC_INSTALL_PARAMS=( ${DEFAULT_SRC_COMPILE_PARAMS[@]} )
 
 src_install() {
