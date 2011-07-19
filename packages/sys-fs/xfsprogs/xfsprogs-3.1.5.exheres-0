@@ -6,7 +6,7 @@ DESCRIPTION="Userspace utilities for the XFS filesystem including fsck and mkfs.
 HOMEPAGE="http://oss.sgi.com/projects/xfs/"
 DOWNLOADS="ftp://oss.sgi.com/projects/xfs/cmd_tars/${PNV}.tar.gz"
 
-LICENCES="GPL LGPL-2.1"
+LICENCES="GPL-2 LGPL-2.1"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 MYOPTIONS=""
