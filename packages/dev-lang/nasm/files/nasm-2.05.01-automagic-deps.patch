@@ -1,3 +1,7 @@
+Upstream: No
+Reason: no need to require pstopdf during the build
+Source: Daniel Mierswa <impulze@impulze.org>
+
 --- ./configure.in.orig	2008-12-05 17:57:11.000000000 +0100
 +++ ./configure.in	2008-12-05 17:57:05.000000000 +0100
 @@ -67,10 +67,14 @@
