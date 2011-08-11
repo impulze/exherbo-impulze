@@ -26,14 +26,15 @@ REMOTE_IDS="freshmeat:nasm sourceforge:nasm"
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/doc/"
 
-DEFAULT_SRC_INSTALL_PARAMS+=(
-    INSTALLROOT="${IMAGE}"
-)
-
 WORK="${WORKBASE}/${MYPNV}"
 
 src_test() {
     emake -C test golden
     emake -C test test
+}
+
+src_install() {
+	emake INSTALL_ROOT="${IMAGE}" install
+	emagicdocs
 }
 
