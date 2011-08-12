@@ -1,8 +1,8 @@
 # Copyright 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-MYPV="${PV/_rc/rc}"
-MYPNV="${PNV/_rc/rc}"
+MY_PV="${PV/_rc/rc}"
+MY_PNV="${PN}-${MY_PV}"
 
 SUMMARY="An 80x86 and x86-64 assembler designed for portability and modularity."
 DESCRIPTION="
@@ -13,8 +13,8 @@ DESCRIPTION="
 "
 HOMEPAGE="http://www.${PN}.us/"
 DOWNLOADS="
-    ${HOMEPAGE}/pub/${PN}/releasebuilds/${MYPV}/${MYPNV}.tar.bz2
-    mirror://sourceforge/${PN}/${MYPNV}.tar.bz2
+    ${HOMEPAGE}/pub/${PN}/releasebuilds/${MY_PV}/${MY_PNV}.tar.bz2
+    mirror://sourceforge/${PN}/${MY_PNV}.tar.bz2
 "
 
 LICENCES="BSD-2"
@@ -26,7 +26,7 @@ REMOTE_IDS="freshmeat:nasm sourceforge:nasm"
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/doc/"
 
-WORK="${WORKBASE}/${MYPNV}"
+WORK="${WORKBASE}/${MY_PNV}"
 
 src_test() {
     emake -C test golden
