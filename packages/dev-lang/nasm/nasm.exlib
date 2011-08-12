@@ -12,17 +12,14 @@ DESCRIPTION="
     understand, similar to Intel's but less complex
 "
 HOMEPAGE="http://www.${PN}.us/"
-DOWNLOADS="
-    ${HOMEPAGE}/pub/${PN}/releasebuilds/${MY_PV}/${MY_PNV}.tar.bz2
-    mirror://sourceforge/${PN}/${MY_PNV}.tar.bz2
-"
+DOWNLOADS="${HOMEPAGE}/pub/${PN}/releasebuilds/${MY_PV}/${MY_PNV}.tar.bz2"
 
 LICENCES="BSD-2"
 MYOPTIONS=""
 
 DEPENDENCIES=""
 
-REMOTE_IDS="freshmeat:nasm sourceforge:nasm"
+REMOTE_IDS="freshmeat:nasm"
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/doc/"
 
