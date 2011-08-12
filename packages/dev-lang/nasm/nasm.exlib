@@ -31,7 +31,7 @@ src_test() {
 }
 
 src_install() {
-    emake INSTALL_ROOT="${IMAGE}" install
+    emake -j1 INSTALLROOT="${IMAGE}" install
     emagicdocs
 }
 
