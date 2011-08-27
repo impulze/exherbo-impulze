@@ -1,0 +1,39 @@
+# Copyright 2011 Daniel Mierswa <impulze@impulze.org>
+# Distributed under the terms of the GNU General Public License v2
+
+AT_M4DIR=( m4 )
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 ] ]
+require sourceforge [ project=mp3splt suffix=tar.gz ]
+
+SUMMARY="A tactical role-playing game. Third game of the Jagged Alliance series."
+DESCRIPTION="GTK+ based mp3 and ogg splitter"
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~x86"
+
+MYOPTIONS="doc"
+
+DEPENDENCIES="
+    build:
+        doc? (
+            app-doc/doxygen
+            app-doc/graphviz
+        )
+    build+run:
+        media-libs/libmp3splt[>=0.7]
+        x11-libs/gtk+:2[>=2.12.0]
+"
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}"/mp3splt-gtk-0.7-make_doc_generation_optional.patch
+)
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( 'doc doxygen' )
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    '--disable-gnome'
+    '--disable-audacious'
+    '--disable-gstreamer'
+)
+
+
