@@ -1,0 +1,36 @@
+# Copyright 2009 Timothy Redaelli <timothy@redaelli.eu>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Automatically restart SSH sessions and tunnels"
+DESCRIPTION="
+A program to start a copy of ssh and monitor it, restarting it as necessary
+should it die or stop passing traffic. The idea is from rstunnel
+(Reliable SSH Tunnel), but implemented in C.
+"
+HOMEPAGE="http://www.harding.motd.ca/autossh/"
+DOWNLOADS="${HOMEPAGE}/${PNV}.tgz"
+
+LICENCES="as-is"
+SLOT="0"
+PLATFORMS="~x86"
+
+REMOTE_IDS="freshmeat:autossh"
+
+DEPENDENCIES="
+    build+run:
+        net-misc/openssh
+"
+
+UPSTREAM_CHANGELOG="${HOMEPAGE}/CHANGES"
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}/README"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=( '--hates=docdir' )
+
+src_install() {
+    default
+
+    dobin autossh
+    insinto /usr/share/doc/${PNVR}/examples
+    doins autossh.host rscreen
+    doman autossh.1
+}
