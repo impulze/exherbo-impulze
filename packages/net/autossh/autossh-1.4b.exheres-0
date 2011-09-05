@@ -27,7 +27,7 @@ UPSTREAM_DOCUMENTATION="${HOMEPAGE}/README"
 DEFAULT_SRC_CONFIGURE_PARAMS=( '--hates=docdir' )
 
 src_install() {
-    default
+    emagicdocs
 
     dobin autossh
     insinto /usr/share/doc/${PNVR}/examples
