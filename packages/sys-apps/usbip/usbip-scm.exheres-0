@@ -7,7 +7,7 @@ require usbip scm-svn
 
 DOWNLOADS=""
 SLOT="0"
-PLATFORMS="~amd64"
+PLATFORMS="~amd64 ~x86"
 
 DEFAULT_SRC_CONFIGURE_PARAMS+=( --includedir=/usr/include )
 
