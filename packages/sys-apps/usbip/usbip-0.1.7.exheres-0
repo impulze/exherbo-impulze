@@ -6,3 +6,5 @@ require usbip
 SLOT="0"
 PLATFORMS="~amd64"
 
+WORK="${WORK}/src"
+

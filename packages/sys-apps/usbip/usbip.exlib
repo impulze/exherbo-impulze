@@ -28,8 +28,6 @@ UPSTREAM_RELEASE_NOTES="${UPSTREAM_CHANGELOG}"
 DEFAULT_SRC_CONFIGURE_PARAMS+=( '--with-usbids-dir=/usr/share/misc' '--disable-usbids-install' )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS+=( 'tcpd tcp-wrappers' )
 
-WORK="${WORK}/src"
-
 src_prepare() {
     edo sed \
         -e "/^AM_CFLAGS = /s:= := -DUSBIDS_FILE='\"@USBIDS_DIR@/usb.ids\"' :" \

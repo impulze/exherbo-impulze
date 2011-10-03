@@ -1,11 +1,23 @@
 # Copyright 2008 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-SCM_REPOSITORY="https://${PN}.svn.sourceforge.net/svnroot/${PN}/linux"
+SCM_REPOSITORY="https://${PN}.svn.sourceforge.net/svnroot/${PN}/obsolete/linux"
 
 require usbip scm-svn
 
 DOWNLOADS=""
 SLOT="0"
 PLATFORMS="~amd64"
+
+DEFAULT_SRC_CONFIGURE_PARAMS+=( --includedir=/usr/include )
+
+src_prepare() {
+    edo sed \
+        -e "/^AM_CFLAGS = /s:= := -DUSBIDS_FILE='\"@USBIDS_DIR@/usb.ids\"' :" \
+        -i Makefile.am
+    edo sed \
+        -e '/usbip_stub_driver_name =/s:usbip-host:usbip:' \
+        -i libsrc/stub_driver.c
+    autotools_src_prepare
+}
 
