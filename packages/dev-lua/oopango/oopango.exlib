@@ -1,7 +1,7 @@
 # Copyright 2010 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-myexparam oocairo_version='[=1.3]'
+myexparam oocairo_version
 
 SUMMARY="Lua bindings for pango"
 HOMEPAGE="http://oocairo.naquadah.org/"
