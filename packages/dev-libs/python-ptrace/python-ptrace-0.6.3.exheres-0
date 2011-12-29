@@ -15,7 +15,7 @@ REMOTE_IDS="freshmeat:python-ptrace pypi:python-ptrace"
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/wiki/Home [[ description = [ wiki ] ]]"
 
-WORK="${WORKBASE}/python-ptrace"
+WORK="${WORKBASE}/haypo-python-ptrace-6382a4d68daa"
 
 do_phase() {
     edo ln -sf setup.py{.orig,}
