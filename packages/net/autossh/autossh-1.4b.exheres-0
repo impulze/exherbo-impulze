@@ -12,7 +12,7 @@ DOWNLOADS="${HOMEPAGE}/${PNV}.tgz"
 
 LICENCES="as-is"
 SLOT="0"
-PLATFORMS="~x86"
+PLATFORMS="~amd64 ~x86"
 
 REMOTE_IDS="freshmeat:autossh"
 
