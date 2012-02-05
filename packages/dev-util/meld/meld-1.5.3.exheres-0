@@ -1,12 +1,12 @@
 # Copyright 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-require gnome.org
+require gtk-icon-cache gnome.org [ suffix=.tar.xz ]
 
 SUMMARY="A visual diff and merge tool."
 DESCRIPTION="Rich featured diff and merge tool that integrates with most
 version control systems. It's also possible to do 3-way diffs."
-HOMEPAGE="http://live.gnome.org/${PN^}"
+HOMEPAGE="http://meldmerge.org/"
 
 LICENCES="GPL-2"
 SLOT="0"
