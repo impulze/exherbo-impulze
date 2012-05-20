@@ -5,40 +5,40 @@
 
 opts="buffer unbuffer"
 
-PIDFILE=/var/run/metalog.pid
+PIDFILE=/run/metalog.pid
 
 depend() {
-	need localmount
-	use clock hostname
-	after bootmisc
-	provide logger
+    need localmount
+    use clock hostname
+    after bootmisc
+    provide logger
 }
 
 start() {
-	ebegin "Starting metalog"
-	start-stop-daemon --start --exec /usr/sbin/metalog \
-	    --pidfile "${PIDFILE}" \
-	    -- --daemonize --pidfile="${PIDFILE}" ${METALOG_OPTS}
-	eend $?
+    ebegin "Starting metalog"
+    start-stop-daemon --start --exec /usr/sbin/metalog \
+        --pidfile "${PIDFILE}" \
+        -- --daemonize --pidfile="${PIDFILE}" ${METALOG_OPTS}
+    eend $?
 }
 
 stop() {
-	ebegin "Stopping metalog"
-	start-stop-daemon --stop --exec /usr/sbin/metalog \
-	    --pidfile "${PIDFILE}"
-	eend $?
+    ebegin "Stopping metalog"
+    start-stop-daemon --stop --exec /usr/sbin/metalog \
+        --pidfile "${PIDFILE}"
+    eend $?
 }
 
 buffer() {
-	ebegin "Enabling log buffering"
-	start-stop-daemon --stop --oknodo --signal USR2 \
-	    --exec /usr/sbin/metalog --pidfile "${PIDFILE}"
-	eend $?
+    ebegin "Enabling log buffering"
+    start-stop-daemon --stop --oknodo --signal USR2 \
+        --exec /usr/sbin/metalog --pidfile "${PIDFILE}"
+    eend $?
 }
 
 unbuffer() {
-	ebegin "Disabling log buffering"
-	start-stop-daemon --stop --oknodo --signal USR1 \
-	    --exec /usr/sbin/metalog --pidfile "${PIDFILE}"
-	eend $?
+    ebegin "Disabling log buffering"
+    start-stop-daemon --stop --oknodo --signal USR1 \
+        --exec /usr/sbin/metalog --pidfile "${PIDFILE}"
+    eend $?
 }
