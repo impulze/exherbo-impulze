@@ -28,20 +28,20 @@ cdemud_src_install() {
 #!/sbin/runscript
 
 depend() {
-	after logger
-	need dbus
+    after logger
+    need dbus
 }
 
 start() {
-	ebegin "Starting cdemu daemon"
-	cdemud \${CDEMUD_OPTS} -d -p /var/run/cdemud.pid
-	eend \$?
+    ebegin "Starting cdemu daemon"
+    cdemud \${CDEMUD_OPTS} -d -p /run/cdemud.pid
+    eend \$?
 }
 
 stop() {
-	ebegin "Stopping cdemu daemon"
-	cdemud \${CDEMUD_OPTS} -k -p /var/run/cdemud.pid
-	eend \$?
+    ebegin "Stopping cdemu daemon"
+    cdemud \${CDEMUD_OPTS} -k -p /run/cdemud.pid
+    eend \$?
 }
 EOF
 
