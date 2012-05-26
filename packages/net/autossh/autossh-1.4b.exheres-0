@@ -14,7 +14,7 @@ LICENCES="as-is"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
 
-REMOTE_IDS="freshmeat:autossh"
+REMOTE_IDS="freecode:autossh"
 
 DEPENDENCIES="
     build+run:

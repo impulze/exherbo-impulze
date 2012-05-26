@@ -20,7 +20,7 @@ DEPENDENCIES="
         dev-libs/pcre
 "
 
-REMOTE_IDS+=" freshmeat:${PN}"
+REMOTE_IDS+=" freecode:${PN}"
 
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/README"
 

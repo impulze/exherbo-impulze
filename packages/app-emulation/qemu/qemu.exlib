@@ -45,7 +45,7 @@ DEPENDENCIES="
         ]]
 "
 
-REMOTE_IDS="freshmeat:qemu"
+REMOTE_IDS="freecode:qemu"
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}/user-doc.html"

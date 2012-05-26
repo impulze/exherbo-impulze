@@ -19,7 +19,7 @@ DEPENDENCIES="
         sys-apps/usbutils-data
 "
 
-REMOTE_IDS+=" freshmeat:usbip"
+REMOTE_IDS+=" freecode:usbip"
 
 UPSTREAM_CHANGELOG="http://sourceforge.net/project/shownotes.php?group_id=122798&release_id=595689"
 UPSTREAM_DOCUMENTATION="${HOMEPAGE}#documentation"

@@ -27,7 +27,7 @@ fi
 
 LICENCES="GPL-2"
 
-REMOTE_IDS="sourceforge:cdemu freshmeat:cdemu"
+REMOTE_IDS="sourceforge:cdemu freecode:cdemu"
 
 src_prepare() {
     exparam -v WANT_AUTOGEN autogen
