@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 export_exlib_phases src_compile src_install pkg_postinst
-require cdemu-common [ name=vhba-module ]
+require cdemu-common [ name=vhba-module ] udev-rules
 
 SUMMARY="Kernel module for CD-ROM device emulation."
 DESCRIPTION="VHBA module provides (V)irtual (SCSI) (H)ost (B)us (A)dapter, which is the link between userspace cdemu daemon and linux kernel."
@@ -22,7 +22,7 @@ vhba-module_src_install() {
     dodir /usr/src
     edo cp -pPR "${WORK}" "${IMAGE}/usr/src/${PNV}"
 
-    insinto /etc/udev/rules.d
+    insinto "${UDEVRULESDIR}"
     hereins 90-vhba.rules <<EOF
 KERNEL=="vhba_ctl", MODE="0660", OWNER="root", GROUP="cdemu"
 EOF
