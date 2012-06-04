@@ -38,6 +38,6 @@ src_prepare() {
 src_install() {
     default
 
-    edo rmdir "${IMAGE}/usr/share/usbip"
+    ever is_scm || edo rmdir "${IMAGE}/usr/share/usbip"
 }
 
