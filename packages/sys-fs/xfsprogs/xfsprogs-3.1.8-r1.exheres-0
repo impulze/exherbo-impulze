@@ -21,11 +21,11 @@ DEFAULT_SRC_INSTALL_PARAMS+=( DIST_ROOT="${IMAGE}" install-dev )
 
 src_prepare() {
     default
-    edo sed -e "/^PKG_DOC_DIR\t=/s:@pkg_name@:${PNV}:" -i include/builddefs.in
+    edo sed -e "/^PKG_DOC_DIR\t=/s:@pkg_name@:${PNVR}:" -i include/builddefs.in
 }
 
 src_install() {
     default
-    edo rm "${IMAGE}/usr/share/doc/${PNV}/release.sh"
+    edo rm "${IMAGE}/usr/share/doc/${PNVR}/release.sh"
 }
 
