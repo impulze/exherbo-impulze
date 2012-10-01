@@ -17,7 +17,7 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS+=( OPTIMIZER=' ' DEBUG=' ' --sbindir=/sbin )
-DEFAULT_SRC_INSTALL_PARAMS+=( DIST_ROOT="${IMAGE}" )
+DEFAULT_SRC_INSTALL_PARAMS+=( DIST_ROOT="${IMAGE}" install-dev )
 
 src_prepare() {
     default
