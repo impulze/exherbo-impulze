@@ -1,7 +1,7 @@
 # Copyright 2009 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-require gtk-icon-cache gnome.org [ suffix=.tar.xz ]
+require gtk-icon-cache gnome.org [ suffix=.tar.xz ] freedesktop-desktop freedesktop-mime
 
 SUMMARY="A visual diff and merge tool."
 DESCRIPTION="Rich featured diff and merge tool that integrates with most
@@ -21,7 +21,7 @@ DEPENDENCIES="
     build:
         sys-devel/gettext
     build+run:
-        dev-lang/python[>=2.5]
+        dev-lang/python:*[>=2.6]
     run:
         gnome-bindings/pygobject:2[>=2.16.0]
         gnome-bindings/pygtk[>=2.14]
@@ -40,5 +40,17 @@ src_install() {
 
     edo rmdir "${IMAGE}"/usr/share/gnome/{help/meld,help,} \
               "${IMAGE}"/usr/share/pixmaps
+}
+
+pkg_postinst() {
+    freedesktop-desktop_pkg_postinst
+    freedesktop-mime_pkg_postinst
+    gtk-icon-cache_pkg_postinst
+}
+
+pkg_postrm() {
+    freedesktop-desktop_pkg_postrm
+    freedesktop-mime_pkg_postrm
+    gtk-icon-cache_pkg_postrm
 }
 
