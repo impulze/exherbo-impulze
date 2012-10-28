@@ -4,7 +4,16 @@
 require "${PN}"
 
 SCM_REPOSITORY="git://git.qemu.org/qemu.git"
-SCM_EXTERNAL_REFS="roms/vgabios: roms/seabios: roms/ipxe: roms/SLOF:"
+SCM_EXTERNAL_REFS="
+    roms/vgabios:
+    roms/seabios:
+    roms/ipxe:
+    roms/SLOF:
+    roms/openbios:
+    roms/qemu-palcode:
+    roms/sgabios:
+"
+
 require scm-git
 
 PLATFORMS="~amd64"
