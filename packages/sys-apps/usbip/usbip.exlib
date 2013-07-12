@@ -13,7 +13,7 @@ MYOPTIONS="tcpd"
 DEPENDENCIES="
     build+run:
         dev-libs/glib
-        tcpd? ( sys-apps/tcp_wrappers )
+        tcpd? ( sys-apps/tcp-wrappers )
         sys-fs/sysfsutils
     run:
         sys-apps/usbutils-data
