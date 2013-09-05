@@ -1,7 +1,7 @@
 # Copyright 2008 Daniel Mierswa <impulze@impulze.org>
 # Distributed under the terms of the GNU General Public License v2
 
-SCM_REPOSITORY="https://${PN}.svn.sourceforge.net/svnroot/${PN}/obsolete/linux"
+SCM_REPOSITORY="https://svn.code.sf.net/p/${PN}/code/obsolete/linux"
 
 require usbip scm-svn
 
