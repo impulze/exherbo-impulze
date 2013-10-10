@@ -31,21 +31,10 @@ DEFAULT_SRC_PREPARE_PATCHES+=(
     "${FILES}/${PNV}-error.patch"
 )
 
-pkg_config() {
-    if [ -z "${DNSCACHE_DIR}" ] ; then
-        einfo "Set DNSCACHE_DIR to a non-existing directory to setup dnscache."
-    else
-        einfo "Setting up dnscache in ${DNSCACHE_DIR}"
-        /usr/bin/dnscache-conf dnscache dnslog "${DNSCACHE_DIR}"
-        eend $?
-    fi
-
-    if [ -z "${TINYDNS_DIR}" ] ; then
-        einfo "Set TINYDNS_DIR to a non-existing directory to setup tinydns."
-    else
-        einfo "Setting up tinydns in ${TINYDNS_DIR}"
-        /usr/bin/tinydns-conf tinydns dnslog "${TINYDNS_DIR}"
-        eend $?
-    fi
-}
+pkg_postinst() {
+    elog "To setup dnscache in an empty directory use:"
+    elog "/usr/sbin/dnscache-conf dnscache dnslog <directory>"
+    elog "Likewise if you want to setup tinydns:"
+    elog "/usr/sbin/tinydns-conf tinydns dnslog <directory>"
+   }
 
