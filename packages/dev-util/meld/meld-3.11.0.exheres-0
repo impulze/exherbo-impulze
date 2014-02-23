@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require gtk-icon-cache gnome.org [ suffix=.tar.xz ] freedesktop-desktop freedesktop-mime
+require gsettings setup-py [ blacklist=3 import=setuptools multibuild=false ]
 
 SUMMARY="A visual diff and merge tool."
 DESCRIPTION="Rich featured diff and merge tool that integrates with most
@@ -11,46 +12,42 @@ HOMEPAGE="http://meldmerge.org/"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64 ~x86"
-MYOPTIONS=""
+MYOPTIONS="
+    ( linguas: ar bg ca ca@valencia cs da de dz el en_CA en_GB eo es eu fi fr gl hu id it ja ko nb
+               ne nl oc pa pl pt pt_BR ro ru rw sl sq sr sr@latin sv tr vi zh_CN zh_TW )
+"
 
 # make check doesn't run tests but some upstream QA
 # make test needs X and fails because files are missing
 RESTRICT="test"
 
 DEPENDENCIES="
-    build:
-        sys-devel/gettext
     build+run:
-        dev-lang/python:*[>=2.6]
+        sys-devel/gettext
     run:
-        gnome-bindings/pygobject:2[>=2.16.0]
-        gnome-bindings/pygtk[>=2.14]
-    suggestion:
-        gnome-bindings/pygtksourceview:2[>=2.4]
-          [[ description = [ syntax highlighting, line numbers, etc. ] ]]
+        dev-libs/glib:2[>=2.34]
+        gnome-bindings/pygobject:3[>=3.8]
+        gnome-desktop/gtksourceview:3.0[>=3.6][gobject-introspection]
+        x11-libs/gtk+:3[>=3.6][gobject-introspection]
 "
-# scrollkeeper can probably build the documentation
-# LANGUAGES="" prevents building help/ subdir, which seems to need that
 
-DEFAULT_SRC_COMPILE_PARAMS=( prefix=/usr libdir=/usr/${LIBDIR} docdir_='$(docdir)'/${PNVR} LANGUAGES="" )
-DEFAULT_SRC_INSTALL_PARAMS=( ${DEFAULT_SRC_COMPILE_PARAMS[@]} )
-
-src_install() {
+src_prepare() {
+    # Help is broken
+    sed -e '/"build_help"/d' -i setup.py
     default
-
-    edo rmdir "${IMAGE}"/usr/share/gnome/{help/meld,help,} \
-              "${IMAGE}"/usr/share/pixmaps
 }
 
 pkg_postinst() {
     freedesktop-desktop_pkg_postinst
     freedesktop-mime_pkg_postinst
     gtk-icon-cache_pkg_postinst
+    gsettings_pkg_postinst
 }
 
 pkg_postrm() {
     freedesktop-desktop_pkg_postrm
     freedesktop-mime_pkg_postrm
     gtk-icon-cache_pkg_postrm
+    gsettings_pkg_postrm
 }
 
